@@ -126,6 +126,7 @@ else {
     handle('download:start', async data => {
       if (job || loading) throw new ApiError('È già in corso un’operazione.');
       if (!data || typeof data.compress !== 'boolean') throw new ApiError('Opzioni download non valide.');
+      if (data.ocr !== undefined && typeof data.ocr !== 'boolean') throw new ApiError('Opzione OCR non valida.');
       const account = selectedAccount(), provider = getProvider(providerId);
       const id = safeId(data.id), selected = account.books.find(book => book.id === id);
       if (!selected) throw new ApiError('Libro non trovato. Carica i tuoi libri e seleziona un titolo.');
@@ -140,7 +141,7 @@ else {
       }
       const quality = validateJpegQuality(data.quality);
       const tmpDir = app.isPackaged || testDirectory ? path.join(dataDir, 'tmp') : path.resolve(directory, '../tmp');
-      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality }, event => {
+      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality, ocr: providerId === 'mydbook' && data.ocr === true }, event => {
         if (['done', 'failed', 'cancelled'].includes(event.type)) job = null;
         if (window && !window.isDestroyed()) window.webContents.send('download:event', event);
         if (event.type === 'failed' && [401, 403].includes(event.status)) {

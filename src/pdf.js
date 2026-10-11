@@ -5,6 +5,7 @@ import { config } from './config.js';
 import { ApiError } from './api.js';
 import { imageToJpeg, validateJpegQuality } from './images.js';
 import cliProgress from 'cli-progress';
+import { createOcr } from './ocr.js';
 
 export function sanitizeTitle(title) {
   let name = String(title).normalize('NFKC').replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').trim().replace(/[. ]+$/g, '').slice(0, 150).replace(/[. ]+$/g, '');
@@ -12,14 +13,16 @@ export function sanitizeTitle(title) {
   if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(name)) name = '_' + name;
   return name;
 }
-export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
+export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, ocr = false, quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
   if (files.length !== book.pages.length) throw new ApiError('Pagine mancanti: PDF non creato.');
   // Native PDF pages retain text/vectors; JPEG compression applies only to raster pages.
   compress = compress && files.some(file => path.extname(file) !== '.pdf');
   if (compress) validateJpegQuality(quality);
+  ocr = Boolean(ocr && book.provider !== 'bsmart' && files.some(file => path.extname(file) !== '.pdf'));
+  const recognition = ocr ? createOcr({ signal, onProgress }) : null;
   const pdf = await PDFDocument.create();
   pdf.setTitle(book.title); pdf.setCreator('mydbook-downloader');
-  const bar = new cliProgress.SingleBar({ format: `${compress ? 'Compressione e PDF' : 'Creazione PDF'} {bar} {value}/{total}`, hideCursor: true }, cliProgress.Presets.shades_classic);
+  const bar = new cliProgress.SingleBar({ format: `${ocr ? 'OCR e PDF' : compress ? 'Compressione e PDF' : 'Creazione PDF'} {bar} {value}/{total}`, hideCursor: true }, cliProgress.Presets.shades_classic);
   if (!quiet) bar.start(files.length, 0);
   onProgress({ phase: 'pdf', completed: 0, total: files.length });
   try {
@@ -36,14 +39,20 @@ export async function mergePdf(book, files, { sample = false, signal, compress =
           const image = compress ? await pdf.embedJpg(await imageToJpeg(bytes, quality)) : await pdf.embedPng(bytes);
           const page = pdf.addPage([image.width, image.height]);
           page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+          if (recognition) {
+            const textPdf = await recognition.recognize(bytes, files[i], i, files.length);
+            const [textLayer] = await pdf.embedPdf(textPdf, [0]);
+            page.drawPage(textLayer, { x: 0, y: 0, width: image.width, height: image.height });
+            onProgress({ phase: 'ocr', completed: i + 1, total: files.length });
+          }
         }
-      } catch { throw new ApiError(`Pagina ${i + 1}: risorsa mancante, danneggiata o conversione fallita.`); }
+      } catch (error) { if (error instanceof ApiError) throw error; throw new ApiError(`Pagina ${i + 1}: risorsa mancante, danneggiata o conversione fallita.`); }
       if (!quiet) bar.update(i + 1);
       onProgress({ phase: 'pdf', completed: i + 1, total: files.length });
     }
-  } finally { if (!quiet) bar.stop(); }
+  } finally { if (!quiet) bar.stop(); await recognition?.close(); }
   await mkdir(outputDir, { recursive: true });
-  const suffix = (sample ? `-campione-${files.length}` : '') + (compress ? `-compresso-q${quality}` : '');
+  const suffix = (sample ? `-campione-${files.length}` : '') + (compress ? `-compresso-q${quality}` : '') + (ocr ? '-ocr' : '');
   const target = path.join(outputDir, `${sanitizeTitle(book.title)}${suffix}.pdf`);
   if (!quiet) console.log('Salvataggio PDF...');
   onProgress({ phase: 'saving', completed: 0, total: files.length });

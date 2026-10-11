@@ -11,7 +11,7 @@ const controller = new AbortController();
 process.once('SIGINT', () => controller.abort());
 let token = '';
 try {
-  const { values } = parseArgs({ options: { provider: { type: 'string', default: 'mydbook' }, book: { type: 'string' }, list: { type: 'boolean' }, sample: { type: 'string' }, compress: { type: 'boolean' }, quality: { type: 'string' } } });
+  const { values } = parseArgs({ options: { provider: { type: 'string', default: 'mydbook' }, book: { type: 'string' }, list: { type: 'boolean' }, sample: { type: 'string' }, compress: { type: 'boolean' }, quality: { type: 'string' }, ocr: { type: 'boolean' } } });
   const provider = getProvider(values.provider);
   const compress = Boolean(values.compress || values.quality !== undefined);
   const quality = validateJpegQuality(values.quality === undefined ? 80 : Number(values.quality));
@@ -27,7 +27,8 @@ try {
       const book = books.find(b => b.id === id);
       if (!book) throw new ApiError('Libro non trovato nella tua libreria.');
       const limit = values.sample === undefined ? undefined : Number(values.sample);
-      const target = await downloadBook({ provider: provider.id, token, book, signal: controller.signal, compress, quality, limit });
+      if (values.ocr && provider.id === 'bsmart') console.log('bSmart conserva il testo dei PDF originali: OCR non applicato.');
+      const target = await downloadBook({ provider: provider.id, token, book, signal: controller.signal, compress, quality, ocr: Boolean(values.ocr), limit });
       console.log(`PDF salvato: ${target}`);
     } else console.log('Operazione annullata.');
   }

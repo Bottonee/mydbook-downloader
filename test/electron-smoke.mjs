@@ -44,6 +44,7 @@ try {
   await window.waitForSelector('.book', { timeout: 45000 });
   assert.equal(await window.locator('#token').inputValue(), '');
   await window.locator('.book').first().click(); assert.equal(await window.locator('#download').isEnabled(), true);
+  assert.equal(await window.locator('#ocr').isEnabled(), true);
   await window.screenshot({ path: 'tmp/desktop-smoke/library.png' });
   await window.locator('#search').fill('non-esiste-questa-ricerca'); assert.equal(await window.locator('.book').count(), 0);
   await window.locator('#search').fill('');
@@ -117,6 +118,7 @@ try {
   assert.equal((await readFile(path.join(env.MYDBOOK_TEST_DATA_DIR, 'token-bsmart.bin'))).includes(Buffer.from('bsmart-fixture')), false);
   await window.locator('.book').click(); assert.equal(await window.locator('#download').isEnabled(), true);
   assert.equal(await window.locator('#compress').isEnabled(), false);
+  assert.equal(await window.locator('#ocr').isEnabled(), false);
   assert.match(await window.locator('#compression-help').innerText(), /PDF originali/);
   const smartResult = await app.evaluate(async ({ app }, { fixtureUrl, outputDir, tmpDir }) => {
     const requireModule = process.getBuiltinModule('node:module').createRequire(app.getAppPath() + '/package.json');

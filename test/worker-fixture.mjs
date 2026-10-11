@@ -1,8 +1,8 @@
 // Risposte sintetiche solo per test offline; non vengono incluse nell'app.
 import { workerData } from 'node:worker_threads';
 import { readFile } from 'node:fs/promises';
-const image = await readFile(workerData.fixtureImage);
-globalThis.fetch = async (url, options) => {
+const image = workerData?.fixtureImage ? await readFile(workerData.fixtureImage) : null;
+if (image) globalThis.fetch = async (url, options) => {
   options.signal?.throwIfAborted();
   const pathname = new URL(url).pathname;
   if (pathname === '/fixture-page.png') return new Response(image, { headers: { 'content-type': 'image/png' } });

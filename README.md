@@ -8,6 +8,7 @@ Per installare/buildare Electron: Node.js 22.12+, consigliato Node 24 LTS. La CL
 
 ```powershell
 npm ci
+npm run ocr:prepare
 npm run dev
 ```
 
@@ -15,6 +16,7 @@ npm run dev
 2. Dopo l'estrazione e la validazione, la finestra si chiude, il token viene salvato cifrato e la libreria si carica automaticamente. Un token salvato viene verificato al riavvio e quando cambi provider. Su 401/403 si riapre il login; un download interrotto può essere riavviato dopo l'accesso.
 3. Seleziona il libro e scegli la cartella. Per MyDBook puoi impostare la compressione JPEG (qualità 1–100, predefinita 80). bSmart conserva le pagine PDF originali, con testo e grafica: la compressione JPEG è disabilitata.
 4. Premi **Scarica PDF**. Il progresso conta pagine scaricate/riutilizzate e pagine assemblate. **Annulla** conserva le pagine completate.
+   Per MyDBook puoi attivare **Rendi il PDF ricercabile (OCR)**: riconosce italiano e inglese sulle immagini originali e aggiunge uno strato di testo invisibile. Le pagine conservano l’aspetto originale e diventano ricercabili/selezionabili. Modelli e motore sono inclusi, senza connessione o invio dei libri a servizi esterni. L’OCR richiede più tempo e può sbagliare su formule, scansioni poco nitide e impaginazioni complesse. Per bSmart l’opzione è disabilitata: il testo dei PDF originali è già conservato.
 5. **Disconnetti** cancella il token cifrato e i dati della sessione del provider selezionato. Nell'opzione avanzata **Inserisci token manualmente**, Ricordami è facoltativo.
 
 La GUI non legge `.env`. I token non sono restituiti al renderer, non compaiono nei log e non vengono salvati nelle impostazioni. I vault `token-mydbook.bin` e `token-bsmart.bin` sono cifrati con `safeStorage` in `app.getPath('userData')` (Windows: normalmente `%APPDATA%\MyDbook Downloader`). Il vecchio `token.bin` viene migrato e rimosso. La cifratura dipende dallo stesso account/sistema; non copiare i vault tra account. Su Linux il backend `basic_text` è rifiutato: il login automatico richiede un archivio sicuro, il token manuale senza Ricordami resta disponibile.
@@ -34,6 +36,7 @@ npx playwright install chromium
 npm run cli -- --provider mydbook --list
 npm run cli -- --provider mydbook --book GIAC23_G2350103A --compress --quality 70
 npm run cli -- --provider mydbook --book GIAC23_G2350103A --sample 3
+npm run cli -- --provider mydbook --book GIAC23_G2350103A --ocr --compress --quality 80
 npm run cli -- --provider bsmart --list
 npm run cli -- --provider bsmart --book 12345
 npm run discover -- --provider mydbook --book GIAC23_G2350103A
@@ -44,12 +47,14 @@ npm run discover -- --provider bsmart --headed
 
 ## Build e installer
 
+I PDF con OCR hanno il suffisso `-ocr.pdf`, anche insieme a compressione/campione. I risultati OCR delle singole pagine sono conservati accanto ai PNG in cache, con un hash dell’immagine: annullare e riprendere riutilizza il testo già riconosciuto; se l’immagine cambia, l’OCR viene rifatto. Per disattivarlo basta togliere la spunta. Su bSmart `--ocr` viene ignorato senza rasterizzare o riconoscere nuovamente le pagine.
+
 ```powershell
 npm run dist
 npm run verify:package
 ```
 
-Genera `dist/MyDbook Downloader-1.3.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.3.0` e verifica il relativo `app.asar`.
+Genera `dist/MyDbook Downloader-1.4.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.4.0` e verifica il relativo `app.asar`.
 
 La whitelist del pacchetto include tutti i provider e la pipeline condivisa, con le sole dipendenze di produzione. Playwright, `.env`, cache, output, test, script discovery e vault sono esclusi. `verify:package` controlla `app.asar`. GitHub Actions esegue test unitari e desktop offline, build e verifica su `windows-latest` con Node 24; carica l'installer nell'artifact **mydbook-downloader-windows**. Non servono token degli account.
 
@@ -62,6 +67,7 @@ La whitelist del pacchetto include tutti i provider e la pipeline condivisa, con
 - `electron/main.js`, `preload.cjs`, `ui/`: IPC validato, contextBridge con operazioni nominate e interfaccia vanilla italiana. Il renderer ha CSP, isolamento, sandbox e nessun accesso Node.
 - `electron/download-worker.js`: download/PDF fuori dal thread UI; annullamento cooperativo, poi terminazione dopo due secondi se necessario.
 - `src/image-codec.js`: stessa conversione DOM per Electron e Playwright, senza duplicazione.
+- `src/ocr.js`: un worker Tesseract.js riutilizzato per libro; modelli locali italiano/inglese, cache OCR per hash, PDF con testo invisibile e annullamento. `scripts/prepare-ocr.mjs` prepara i modelli per CLI, sviluppo e packaging; `npm run ocr:prepare` li rigenera. Il motore e i modelli usano file reali fuori da app.asar; le dipendenze di test restano escluse.
 
 ```powershell
 npm test
@@ -74,3 +80,5 @@ npm run test:desktop -- --packaged
 Test mockati per estrazione/ordine/origin, normalizzazione, validità token, paginazione bSmart, decifratura con chiave sintetica e unione di PDF nativi; test per concorrenza, retry, ripresa, pagine corrotte, dimensioni e compressione. La prova desktop verifica realmente safeStorage, login simulato offline, riconnessione, pipe CLI, disconnessione, selezione provider e worker PDF per entrambi i provider. Il recupero della chiave dal lettore pubblico è stato verificato anche dal vivo (`node scripts/verify-bsmart-reader.mjs`, senza mostrare o salvare il valore). Il download di un libro con account reale bSmart resta da verificare dall'utente.
 
 Supportate le pagine raster MyDBook (WebP/PNG/JPEG) a impaginazione fissa e le risorse bSmart `page_pdf` contenenti una pagina ciascuna. Libri senza questi formati restituiscono un errore esplicito. Per MyDBook il PDF mantiene dimensioni in pixel usate come punti PDF e testo rasterizzato; JPEG può perdere dettaglio. Per bSmart sono copiate le pagine PDF preservandone dimensioni, testo e grafica. pdf-lib costruisce il PDF in RAM: i libri molto grandi richiedono memoria sufficiente.
+
+Il test OCR usa il motore reale su immagini sintetiche in italiano/inglese: estrae il testo dal PDF, confronta il rendering pixel per pixel con quello senza OCR, verifica dimensioni, ripresa e annullamento durante il riconoscimento. `test/packaged-ocr-smoke.cjs` controlla il worker e i modelli dell'app confezionata. L’OCR è opzionale e disattivato inizialmente; il testo riconosciuto va verificato quando l’accuratezza è importante.

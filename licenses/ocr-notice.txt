@@ -1,0 +1,10 @@
+OCR engine: Tesseract.js and tesseract.js-core, distributed under Apache-2.0.
+https://github.com/naptha/tesseract.js
+https://github.com/naptha/tesseract.js-core
+
+Italian and English traineddata copied from @tesseract.js-data/ita and
+@tesseract.js-data/eng (version 1.0.0, 4.0.0_best_int models).
+Source: https://github.com/naptha/tessdata
+The source repository license is included as tesseract-data-LICENSE.txt.
+The npm package manifests declare MIT and identify Balearica and jeromewu
+as author/contributors. Original model data and engine were not modified.

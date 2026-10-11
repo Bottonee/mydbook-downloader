@@ -5,4 +5,5 @@ tmp/
 output/
 discovery-private/
 dist/
+build/ocr/
 *.log

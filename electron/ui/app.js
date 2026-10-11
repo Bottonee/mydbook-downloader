@@ -11,6 +11,7 @@ function updateControls() {
   for (const id of ['provider', 'login', 'disconnect', 'token', 'remember', 'load', 'choose-output', 'compress']) $(id).disabled = busy || loading;
   $('remember').disabled ||= !canRemember;
   $('compress').disabled ||= !compressionSupported;
+  $('ocr').disabled = busy || loading || $('provider').value !== 'mydbook';
   $('quality').disabled = busy || loading || !compressionSupported || !$('compress').checked;
   $('download').disabled = busy || loading || !selected || !downloadSupported;
   $('cancel').hidden = !busy;
@@ -22,6 +23,7 @@ function applyState(state) {
   const provider = state.providers?.find(p => p.id === state.provider);
   downloadSupported = provider?.downloadSupported !== false;
   compressionSupported = provider?.compressionSupported !== false;
+  $('ocr-help').textContent = $('provider').value === 'mydbook' ? 'Italiano e inglese, elaborati sul computer. Aggiunge testo selezionabile; richiede più tempo. I risultati completati vengono riutilizzati.' : 'bSmart conserva già il testo dei PDF originali. OCR non necessario.';
   $('compression-help').textContent = compressionSupported ? 'Qualità più bassa: file più piccolo, meno dettaglio. Le dimensioni delle pagine restano invariate.' : 'bSmart: unione dei PDF originali, mantenendo testo e grafica. La compressione JPEG non si applica.';
   canRemember = state.canRemember;
   $('remember').checked = state.remembered;
@@ -85,14 +87,14 @@ $('download').addEventListener('click', async () => {
   const quality = Number($('quality').value);
   if (!Number.isInteger(quality) || quality < 1 || quality > 100) { notice('La qualità JPEG deve essere tra 1 e 100.', true); return; }
   busy = true; phase = undefined; $('progress').removeAttribute('value'); $('phase').textContent = 'Preparazione…'; $('page-count').textContent = ''; updateControls();
-  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality });
+  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality, ocr: $('provider').value === 'mydbook' && $('ocr').checked });
   if (!response.ok) { busy = false; notice(response.message, true); log(response.message); $('progress').value = 0; updateControls(); }
   else { notice('Download in corso. Puoi annullare e riprenderlo in seguito.'); log(`Avvio: ${selected.title}.`); }
 });
 $('cancel').addEventListener('click', async () => { $('cancel').disabled = true; $('phase').textContent = 'Annullamento…'; const response = await api.cancel(); if (!response.ok) { notice(response.message, true); $('cancel').disabled = false; } });
 const unsubscribe = api.onDownload(event => {
   if (event.type === 'progress') {
-    const labels = { metadata: 'Lettura delle pagine del libro', download: 'Download pagine', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio PDF', complete: 'PDF pronto' };
+    const labels = { metadata: 'Lettura delle pagine del libro', download: 'Download pagine', ocr: 'Riconoscimento del testo (OCR)', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio PDF', complete: 'PDF pronto' };
     if (phase !== event.phase) { phase = event.phase; log(labels[phase] || 'Elaborazione…'); }
     $('phase').textContent = labels[event.phase] || 'Elaborazione…';
     if (event.phase === 'metadata' || event.phase === 'saving') { $('progress').removeAttribute('value'); $('page-count').textContent = ''; }

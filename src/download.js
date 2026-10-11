@@ -8,7 +8,7 @@ import { getProvider } from './providers/index.js';
 import { safeId } from './providers/common.js';
 
 // A single orchestration pipeline for desktop and CLI, independent of the provider transport.
-export async function downloadBook({ provider: id = 'mydbook', token, book, signal, tmpDir = config.tmpDir, outputDir = config.outputDir, compress = false, quality = 80, limit, quiet = false, onProgress = () => {} }) {
+export async function downloadBook({ provider: id = 'mydbook', token, book, signal, tmpDir = config.tmpDir, outputDir = config.outputDir, compress = false, quality = 80, ocr = false, limit, quiet = false, onProgress = () => {} }) {
   const provider = getProvider(id);
   safeId(book.id);
   onProgress({ phase: 'metadata', completed: 0, total: 0 });
@@ -24,5 +24,5 @@ export async function downloadBook({ provider: id = 'mydbook', token, book, sign
     try { await access(path.join(tmpDir, book.id, 'manifest.json')); cacheDir = tmpDir; } catch {}
   }
   const files = await downloadPages(transport, full, { quiet, tmpDir: cacheDir, limit: count, onProgress });
-  return mergePdf({ ...full, pages: pages.slice(0, count) }, files, { quiet, signal, compress, quality, outputDir: path.join(outputDir, id), sample: count < pages.length, onProgress });
+  return mergePdf({ ...full, pages: pages.slice(0, count) }, files, { quiet, signal, compress, quality, ocr: id === 'mydbook' && ocr, outputDir: path.join(outputDir, id), sample: count < pages.length, onProgress });
 }
