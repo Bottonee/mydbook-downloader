@@ -1,0 +1,15 @@
+export const config = Object.freeze({
+  baseUrl: 'https://mydbook.olhos.it',
+  tenant: 'mydbook',
+  auth: { cookieName: 'userToken', cookiePath: '/', headerName: 'Authorization', scheme: 'Bearer' },
+  libraryPath: '/mydbook/dashboard',
+  libraryBlockKey: 'user_my_books_block',
+  bookPath: id => `/mydbook/${encodeURIComponent(id)}`,
+  pageDetailsPath: (id, page) => `/data/v1/fixedlayout/mydbook/${encodeURIComponent(id)}/details/${encodeURIComponent(page)}/${encodeURIComponent(page)}`,
+  concurrency: 4,
+  delayMs: 250,
+  retries: 5,
+  timeoutMs: 45000,
+  tmpDir: './tmp',
+  outputDir: './output',
+});
