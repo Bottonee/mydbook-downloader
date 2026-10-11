@@ -1,21 +1,97 @@
 {
   "name": "mydbook-downloader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "start": "node src/index.js",
+    "start": "electron .",
+    "dev": "electron .",
+    "cli": "node src/index.js",
     "discover": "node src/discover.js",
-    "test": "node --test"
+    "test": "node --test test/*.test.js",
+    "icons": "node scripts/generate-icon.mjs",
+    "dist": "electron-builder --win nsis --x64 --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:linux": "electron-builder --linux --publish never",
+    "verify:package": "node scripts/verify-package.mjs",
+    "test:desktop": "node test/electron-smoke.mjs"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
     "dotenv": "^16.6.1",
     "pdf-lib": "^1.17.1",
-    "playwright": "1.56.1",
     "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "playwright": "1.56.1"
+  },
+  "productName": "MyDbook Downloader",
+  "description": "Scarica in PDF i libri della tua libreria MyDbook",
+  "author": "mydbook-downloader",
+  "main": "electron/main.js",
+  "appIcon": "build/icon.png",
+  "build": {
+    "appId": "it.mydbook.downloader",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "asar": true,
+    "files": [
+      "electron/**/*",
+      "src/api.js",
+      "src/books.js",
+      "src/pdf.js",
+      "src/images.js",
+      "src/image-codec.js",
+      "src/config.js",
+      "build/icon.png",
+      "package.json",
+      "!**/*.env",
+      "!**/.env",
+      "!tmp/**/*",
+      "!output/**/*",
+      "!**/playwright{,-core}/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "build/icon.png",
+      "category": "public.app-category.education"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "build/icon.png",
+      "category": "Education"
+    }
   }
 }

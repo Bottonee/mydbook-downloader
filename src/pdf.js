@@ -12,13 +12,14 @@ export function sanitizeTitle(title) {
   if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(name)) name = '_' + name;
   return name;
 }
-export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, quiet = false } = {}) {
+export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
   if (files.length !== book.pages.length) throw new ApiError('Pagine mancanti: PDF non creato.');
   if (compress) validateJpegQuality(quality);
   const pdf = await PDFDocument.create();
   pdf.setTitle(book.title); pdf.setCreator('mydbook-downloader');
   const bar = new cliProgress.SingleBar({ format: `${compress ? 'Compressione e PDF' : 'Creazione PDF'} {bar} {value}/{total}`, hideCursor: true }, cliProgress.Presets.shades_classic);
   if (!quiet) bar.start(files.length, 0);
+  onProgress({ phase: 'pdf', completed: 0, total: files.length });
   try {
     for (let i = 0; i < files.length; i++) {
       signal?.throwIfAborted();
@@ -30,14 +31,17 @@ export async function mergePdf(book, files, { sample = false, signal, compress =
       const page = pdf.addPage([image.width, image.height]);
       page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
       if (!quiet) bar.update(i + 1);
+      onProgress({ phase: 'pdf', completed: i + 1, total: files.length });
     }
   } finally { if (!quiet) bar.stop(); }
-  await mkdir(config.outputDir, { recursive: true });
+  await mkdir(outputDir, { recursive: true });
   const suffix = (sample ? `-campione-${files.length}` : '') + (compress ? `-compresso-q${quality}` : '');
-  const target = path.join(config.outputDir, `${sanitizeTitle(book.title)}${suffix}.pdf`);
+  const target = path.join(outputDir, `${sanitizeTitle(book.title)}${suffix}.pdf`);
   if (!quiet) console.log('Salvataggio PDF...');
+  onProgress({ phase: 'saving', completed: 0, total: files.length });
   const bytes = await pdf.save();
   signal?.throwIfAborted();
   await writeFile(target + '.part', bytes); await rename(target + '.part', target);
+  onProgress({ phase: 'complete', completed: files.length, total: files.length });
   return path.resolve(target);
 }

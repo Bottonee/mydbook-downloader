@@ -8,9 +8,13 @@ export class ApiError extends Error {
 
 export function loadToken() {
   dotenv.config({ path: '.env', override: false });
-  const token = process.env.MYDBOOK_TOKEN?.trim();
+  return validateToken(process.env.MYDBOOK_TOKEN);
+}
+export function validateToken(value) {
+  if (value !== undefined && typeof value !== 'string') throw new ApiError('Token non valido.');
+  const token = value?.trim();
   if (!token) throw new ApiError('MYDBOOK_TOKEN assente: inseriscilo nel file .env.');
-  if (/[\r\n;]/.test(token)) throw new ApiError('MYDBOOK_TOKEN ha un formato non valido.');
+  if (token.length > 16384 || /[\s;\x00-\x1f]/.test(token)) throw new ApiError('MYDBOOK_TOKEN ha un formato non valido.');
   try {
     const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64url').toString());
     if (payload.exp && payload.exp * 1000 <= Date.now()) throw new ApiError('Token scaduto: aggiorna MYDBOOK_TOKEN in .env.', 401);

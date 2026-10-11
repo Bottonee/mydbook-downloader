@@ -15,7 +15,7 @@ export async function listBooks(api) {
   const block = data.blocks?.find(b => b.blockConfiguration?.i18n?.key === config.libraryBlockKey);
   if (!Array.isArray(block?.blockConfiguration?.volumes) || !Array.isArray(data.user.bookcodes)) throw new ApiError('Struttura libreria cambiata: ripeti la discovery.');
   const allowed = new Set(data.user.bookcodes);
-  return [...new Map(block.blockConfiguration.volumes.filter(b => allowed.has(b.bookcode)).map(b => [b.bookcode, { id: safeId(b.bookcode), title: b.title, subtitle: b.subtitle }])).values()];
+  return [...new Map(block.blockConfiguration.volumes.filter(b => allowed.has(b.bookcode)).map(b => [b.bookcode, { id: safeId(b.bookcode), title: b.title, subtitle: b.subtitle, coverUrl: b.coverUrl || null }])).values()];
 }
 export async function bookMetadata(api, book) {
   const data = await api.pageProps(config.bookPath(safeId(book.id)));
@@ -29,8 +29,8 @@ export const pageFilename = index => `${String(index + 1).padStart(6, '0')}.png`
 export async function validPage(file) {
   try { await imageToPng(await readFile(file)); return true; } catch { return false; }
 }
-export async function downloadPages(api, book, { quiet = false, limit = book.pages.length } = {}) {
-  const folder = path.join(config.tmpDir, safeId(book.id));
+export async function downloadPages(api, book, { quiet = false, limit = book.pages.length, tmpDir = config.tmpDir, onProgress = () => {} } = {}) {
+  const folder = path.join(tmpDir, safeId(book.id));
   await mkdir(folder, { recursive: true });
   const manifestPath = path.join(folder, 'manifest.json');
   const manifest = { bookId: book.id, pageIds: book.pages.map(p => p.id) };
@@ -40,7 +40,8 @@ export async function downloadPages(api, book, { quiet = false, limit = book.pag
   if (!old) await writeFile(manifestPath, JSON.stringify(manifest, null, 2));
   const bar = new cliProgress.SingleBar({ format: 'Pagine {bar} {value}/{total}', hideCursor: true }, cliProgress.Presets.shades_classic);
   if (!quiet) bar.start(limit, 0);
-  let cursor = 0, done = 0, failure;
+  let cursor = 0, done = 0, downloaded = 0, resumed = 0, failure;
+  onProgress({ phase: 'download', completed: 0, total: limit, downloaded, resumed });
   const files = book.pages.slice(0, limit).map((_, i) => path.join(folder, pageFilename(i)));
   const worker = async () => {
     while (!failure && cursor < limit) {
@@ -58,8 +59,10 @@ export async function downloadPages(api, book, { quiet = false, limit = book.pag
           try { png = await imageToPng(bytes); } catch { throw new ApiError(`Conversione immagine fallita alla pagina ${page.id}: controlla il formato e l'installazione Chromium (npx playwright install chromium).`); }
           await writeFile(files[i] + '.part', png);
           await rename(files[i] + '.part', files[i]);
-        }
+          downloaded++;
+        } else resumed++;
         done++; if (!quiet) bar.update(done);
+        onProgress({ phase: 'download', completed: done, total: limit, downloaded, resumed });
       } catch (error) { failure ??= error; }
     }
   };
