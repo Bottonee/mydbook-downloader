@@ -1,12 +1,14 @@
 import { _electron } from 'playwright';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, unlink, writeFile } from 'node:fs/promises';
 import { loadToken } from '../src/api.js';
 import { PDFDocument } from 'pdf-lib';
 import { pathToFileURL } from 'node:url';
 import { createServer } from 'node:http';
-const env = { ...process.env, MYDBOOK_TEST_DATA_DIR: path.resolve('tmp/desktop-smoke') };
+await mkdir('tmp/desktop-smoke', { recursive: true });
+const profile = await mkdtemp(path.resolve('tmp/desktop-smoke/profile-'));
+const env = { ...process.env, MYDBOOK_TEST_DATA_DIR: profile };
 delete env.ELECTRON_RUN_AS_NODE;
 const packaged = process.argv.includes('--packaged');
 let loginFixture;

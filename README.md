@@ -25,7 +25,7 @@ PDF in `<cartella>/<provider>/<titolo>.pdf`. La compressione delle immagini cons
 
 ## CLI e discovery
 
-La CLI recupera il token dello stesso provider dal vault dell'app, sullo stesso sistema/account: un piccolo processo Electron lo decifra e lo restituisce su una pipe locale, senza token in argomenti, stdout, log o file temporanei. La CLI non apre una finestra di login; se la sessione manca/scade, accedi dall'app desktop. In alternativa legge `MYDBOOK_TOKEN` o `BSMART_TOKEN` da `.env`/ambiente. L'ambiente ha precedenza; questi file sono ignorati da Git.
+La CLI recupera il token dello stesso provider dal vault dell'app, sullo stesso sistema/account. Se l'app è aperta, usa il suo contesto di cifratura; altrimenti un piccolo processo Electron legge il vault. In entrambi i casi restituisce il token su una pipe locale, senza token in argomenti, stdout, log o file temporanei. Questo evita errori al primo avvio quando la chiave del profilo Windows non è ancora stata salvata da Chromium. La CLI non apre una finestra di login; se la sessione manca/scade, accedi dall'app desktop. In alternativa legge `MYDBOOK_TOKEN` o `BSMART_TOKEN` da `.env`/ambiente. L'ambiente ha precedenza; questi file sono ignorati da Git.
 
 Per convertire immagini nella CLI serve Chromium Playwright (il desktop usa Chromium Electron):
 

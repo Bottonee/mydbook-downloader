@@ -10,7 +10,7 @@ import { TokenVault } from './token-vault.js';
 import { userError } from './errors.js';
 import { DownloadJob } from './download-job.js';
 import { loginProvider, clearProviderSession } from './provider-login.js';
-import { sendCliSession } from './cli-session.js';
+import { isSessionPipe, sendCliSession } from './cli-session.js';
 
 const directory = fileURLToPath(new URL('.', import.meta.url));
 const uiUrl = new URL('./ui/index.html', import.meta.url).href;
@@ -22,10 +22,21 @@ const testDirectory = !app.isPackaged && process.env.MYDBOOK_TEST_DATA_DIR;
 if (testDirectory) { await mkdir(path.resolve(testDirectory), { recursive: true }); app.setPath('userData', path.resolve(testDirectory)); app.setPath('sessionData', path.resolve(testDirectory)); }
 const cliPosition = process.argv.indexOf('--cli-session');
 if (cliPosition !== -1) {
-  app.whenReady().then(() => sendCliSession(process.argv[cliPosition + 1], process.argv[process.argv.indexOf('--provider') + 1], testDirectory ? path.resolve(testDirectory) : app.getPath('userData'))).catch(() => app.quit());
+  const request = { pipe: process.argv[cliPosition + 1], provider: process.argv[process.argv.indexOf('--provider') + 1] };
+  // Reuse the active process's encryption context. On a fresh Windows profile,
+  // Chromium's encryption key may not yet have been persisted to Local State.
+  if (!isSessionPipe(request.pipe) || !app.requestSingleInstanceLock({ cliSession: request })) app.quit();
+  else app.whenReady().then(() => sendCliSession(request.pipe, request.provider, app.getPath('userData'))).catch(() => app.quit());
 } else if (!app.requestSingleInstanceLock()) app.quit();
 else {
-  app.on('second-instance', () => { if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); } });
+  app.on('second-instance', (_event, _argv, _cwd, additionalData) => {
+    const request = additionalData?.cliSession;
+    if (request && isSessionPipe(request.pipe)) {
+      app.whenReady().then(() => sendCliSession(request.pipe, request.provider, app.getPath('userData'), { quit: false })).catch(() => {});
+      return;
+    }
+    if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); }
+  });
   app.whenReady().then(async () => {
     dataDir = testDirectory ? path.resolve(testDirectory) : app.getPath('userData');
     stateFile = path.join(dataDir, 'settings.json');

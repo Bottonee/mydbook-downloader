@@ -30,7 +30,9 @@ export async function loadSavedSession(id) {
       const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE;
       child = spawn(executable, [fileURLToPath(new URL('..', import.meta.url)), '--cli-session', pipe, '--provider', id], { env, stdio: 'ignore', windowsHide: true });
       child.on('error', () => finish(new ApiError('Electron non disponibile. Installa le dipendenze e accedi dall’app desktop.')));
-      child.on('exit', () => { if (!received) finish(new ApiError('Sessione cifrata non disponibile. Accedi dall’app desktop.')); });
+      // A successful secondary process can exit before the running app replies
+      // on the pipe. Keep waiting for that reply, bounded by the existing timeout.
+      child.on('exit', code => { if (!received && code !== 0) finish(new ApiError('Sessione cifrata non disponibile. Accedi dall’app desktop.')); });
       timer = setTimeout(() => finish(new ApiError('Lettura della sessione scaduta. Apri l’app desktop e accedi.')), 30000);
     });
   });
