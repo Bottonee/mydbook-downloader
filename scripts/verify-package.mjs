@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
 import { listPackage } from '@electron/asar';
-const entries = listPackage('dist/win-unpacked/resources/app.asar').map(entry => entry.replaceAll('\\', '/'));
-const forbidden = entries.filter(entry => /\/(?:playwright|playwright-core)(?:\/|$)|\/[^/]*\.env$|\/(?:tmp|output|discovery-private|test|\.github)(?:\/|$)|\/token\.bin$/.test(entry));
+const entries = listPackage(process.argv[2] || 'dist/win-unpacked/resources/app.asar').map(entry => entry.replaceAll('\\', '/'));
+const forbidden = entries.filter(entry => /\/(?:playwright|playwright-core)(?:\/|$)|\/[^/]*\.env$|\/(?:tmp|output|discovery-private|test|\.github)(?:\/|$)|\/token(?:-[a-z]+)?\.bin$/.test(entry));
 assert.deepEqual(forbidden, [], 'Il pacchetto contiene file esclusi');
 assert.ok(entries.includes('/electron/main.js'));
 assert.ok(entries.includes('/electron/download-worker.js'));
 assert.ok(entries.includes('/src/pdf.js'));
+assert.ok(entries.includes('/src/providers/index.js'));
+assert.ok(entries.includes('/src/providers/bsmart.js'));
+assert.ok(entries.includes('/src/providers/bsmart-crypto.js'));
+assert.ok(entries.includes('/node_modules/msgpack-lite/index.js'));
+assert.ok(entries.includes('/licenses/bsmart-downloader-MIT.txt'));
+assert.ok(entries.includes('/src/download.js'));
 console.log('Pacchetto verificato: nessun Playwright, .env, cache, output o token.bin.');

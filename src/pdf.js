@@ -14,6 +14,8 @@ export function sanitizeTitle(title) {
 }
 export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
   if (files.length !== book.pages.length) throw new ApiError('Pagine mancanti: PDF non creato.');
+  // Native PDF pages retain text/vectors; JPEG compression applies only to raster pages.
+  compress = compress && files.some(file => path.extname(file) !== '.pdf');
   if (compress) validateJpegQuality(quality);
   const pdf = await PDFDocument.create();
   pdf.setTitle(book.title); pdf.setCreator('mydbook-downloader');
@@ -23,13 +25,19 @@ export async function mergePdf(book, files, { sample = false, signal, compress =
   try {
     for (let i = 0; i < files.length; i++) {
       signal?.throwIfAborted();
-      let image;
       try {
         const bytes = await readFile(files[i]);
-        image = compress ? await pdf.embedJpg(await imageToJpeg(bytes, quality)) : await pdf.embedPng(bytes);
-      } catch { throw new ApiError(`Pagina ${book.pages[i].id}: immagine mancante/danneggiata o conversione fallita. Se usi --compress, verifica Chromium (npx playwright install chromium).`); }
-      const page = pdf.addPage([image.width, image.height]);
-      page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+        if (path.extname(files[i]) === '.pdf') {
+          const source = await PDFDocument.load(bytes);
+          if (source.getPageCount() !== 1) throw new Error();
+          const [page] = await pdf.copyPages(source, [0]);
+          pdf.addPage(page);
+        } else {
+          const image = compress ? await pdf.embedJpg(await imageToJpeg(bytes, quality)) : await pdf.embedPng(bytes);
+          const page = pdf.addPage([image.width, image.height]);
+          page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+        }
+      } catch { throw new ApiError(`Pagina ${i + 1}: risorsa mancante, danneggiata o conversione fallita.`); }
       if (!quiet) bar.update(i + 1);
       onProgress({ phase: 'pdf', completed: i + 1, total: files.length });
     }

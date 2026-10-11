@@ -19,6 +19,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install chromium
       - run: npm test
+      - run: npm run test:desktop
       - run: npm run dist
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'

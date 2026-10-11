@@ -1,7 +1,5 @@
 import { parentPort, workerData } from 'node:worker_threads';
-import { Api } from '../src/api.js';
-import { bookMetadata, downloadPages } from '../src/books.js';
-import { mergePdf } from '../src/pdf.js';
+import { downloadBook } from '../src/download.js';
 import { setImageConverter } from '../src/images.js';
 import { userError } from './errors.js';
 const controller = new AbortController();
@@ -16,12 +14,7 @@ setImageConverter(payload => new Promise((resolve, reject) => {
 }));
 const progress = data => parentPort.postMessage({ type: 'progress', ...data });
 try {
-  progress({ phase: 'metadata', completed: 0, total: 0 });
-  const api = new Api(workerData.token, controller.signal);
-  const book = await bookMetadata(api, workerData.book);
-  const limit = workerData.limit ?? book.pages.length;
-  const files = await downloadPages(api, book, { quiet: true, tmpDir: workerData.tmpDir, limit, onProgress: progress });
-  const target = await mergePdf({ ...book, pages: book.pages.slice(0, limit) }, files, { quiet: true, signal: controller.signal, compress: workerData.compress, quality: workerData.quality, outputDir: workerData.outputDir, sample: limit < book.pages.length, onProgress: progress });
+  const target = await downloadBook({ ...workerData, signal: controller.signal, quiet: true, onProgress: progress });
   parentPort.postMessage({ type: 'done', target });
-} catch (error) { parentPort.postMessage({ type: controller.signal.aborted ? 'cancelled' : 'failed', message: userError(error, workerData.token) }); }
+} catch (error) { parentPort.postMessage({ type: controller.signal.aborted ? 'cancelled' : 'failed', status: error.status, message: userError(error, workerData.token) }); }
 finally { parentPort.close(); }

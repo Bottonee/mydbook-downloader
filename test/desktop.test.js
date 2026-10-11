@@ -21,6 +21,10 @@ test('token cifrato su disco, ripristino, cancellazione e backend non sicuro rif
   assert.equal((await readFile(vault.file)).includes(Buffer.from('fake-private-test-token')), false);
   assert.equal(await vault.load(), 'fake-private-test-token');
   await vault.forget(); assert.equal(await vault.load(), null);
+  const mydbookVault = new TokenVault(folder, storage, process.platform, 'mydbook');
+  const bsmartVault = new TokenVault(folder, storage, process.platform, 'bsmart');
+  await mydbookVault.save('first-fixture'); await bsmartVault.save('second-fixture');
+  await mydbookVault.forget(); assert.equal(await mydbookVault.load(), null); assert.equal(await bsmartVault.load(), 'second-fixture');
   const unsafe = new TokenVault(folder, { ...storage, getSelectedStorageBackend: () => 'basic_text' }, 'linux');
   await assert.rejects(unsafe.save('fake-token'), /Archivio sicuro/);
   assert.throws(() => validateToken('a;cookie=value'), /formato non valido/);

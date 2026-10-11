@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-11T21:23:04.214Z",
+  "officialLoginOrigin": "https://www.bsmart.it",
+  "cookieNames": [
+    "_gid",
+    "_gat",
+    "_ga_CZMLMWXK3J",
+    "_bsw_session_v1_production",
+    "_ga_J6D1H04ELL",
+    "_ga"
+  ],
+  "storageKeyNames": {
+    "local": [],
+    "session": []
+  },
+  "traffic": [
+    {
+      "method": "GET",
+      "origin": "https://www.bsmart.it",
+      "path": "/api/v6/user",
+      "queryKeys": [],
+      "status": 401,
+      "requestHeaderNames": [
+        ":authority",
+        ":method",
+        ":path",
+        ":scheme",
+        "accept",
+        "accept-encoding",
+        "origin",
+        "priority",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "sec-fetch-dest",
+        "sec-fetch-mode",
+        "sec-fetch-site",
+        "user-agent"
+      ],
+      "contentType": "application/json",
+      "responseSchema": "null"
+    }
+  ]
+}

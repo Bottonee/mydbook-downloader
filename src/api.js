@@ -6,9 +6,11 @@ export class ApiError extends Error {
   constructor(message, status) { super(message); this.status = status; }
 }
 
-export function loadToken() {
+export function loadToken(provider = 'mydbook') {
   dotenv.config({ path: '.env', override: false });
-  return validateToken(process.env.MYDBOOK_TOKEN);
+  const value = process.env[provider === 'bsmart' ? 'BSMART_TOKEN' : 'MYDBOOK_TOKEN'];
+  if (!value) throw new ApiError('Sessione assente: accedi al provider nell’app desktop. In alternativa configura il token in .env.');
+  return validateToken(value);
 }
 export function validateToken(value) {
   if (value !== undefined && typeof value !== 'string') throw new ApiError('Token non valido.');
@@ -23,11 +25,16 @@ export function validateToken(value) {
 }
 
 export class Api {
-  constructor(token, signal) { this.token = token; this.signal = signal; }
-  async request(path, { binary = false } = {}) {
+  constructor(token, signal, providerConfig = config) { this.token = token; this.signal = signal; this.config = { ...config, ...providerConfig }; }
+  async request(path, { binary = false, authenticate = true } = {}) {
+    const config = this.config;
     const initial = new URL(path, config.baseUrl);
     // Gli URL firmati osservati appartengono allo stesso host. Non inviare credenziali altrove.
-    if (initial.origin !== config.baseUrl) throw new ApiError('Host delle pagine non riconosciuto: ripeti la discovery.');
+    if (authenticate && initial.origin !== config.baseUrl) throw new ApiError('Host delle pagine non riconosciuto: ripeti la discovery.');
+    const publicUrl = url => {
+      if (url.protocol !== 'https:' || url.username || url.password || /^(localhost|.*\.localhost|127\..*|0\..*|10\..*|192\.168\..*|169\.254\..*|172\.(1[6-9]|2\d|3[01])\..*|\[.*\])$/i.test(url.hostname)) throw new ApiError('URL della risorsa non sicuro o non supportato.');
+    };
+    if (!authenticate) publicUrl(initial);
     for (let attempt = 0; attempt <= config.retries; attempt++) {
       this.signal?.throwIfAborted();
       let waitMs = Math.min(30000, 500 * 2 ** attempt) + Math.random() * 250;
@@ -41,9 +48,11 @@ export class Api {
         for (let hop = 0; hop < 8; hop++) {
           response = await fetch(url, {
             headers: {
-              [config.auth.headerName]: `${config.auth.scheme} ${this.token}`,
-              Cookie: `${config.auth.cookieName}=${this.token}`,
-              Referer: `${config.baseUrl}/mydbook`,
+              ...(authenticate ? {
+                [config.auth.headerName]: config.auth.scheme ? `${config.auth.scheme} ${this.token}` : this.token,
+                ...(config.auth.cookieName ? { Cookie: `${config.auth.cookieName}=${this.token}` } : {}),
+              } : {}),
+              Referer: config.referer || `${config.baseUrl}/mydbook`,
               Accept: binary ? 'image/*,application/pdf' : 'application/json,text/html',
             }, redirect: 'manual', signal: controller.signal,
           });
@@ -52,7 +61,8 @@ export class Api {
           await response.body?.cancel();
           if (!location) throw new ApiError('Reindirizzamento senza destinazione.');
           url = new URL(location, url);
-          if (url.origin !== config.baseUrl || url.pathname.includes('/login')) throw new ApiError('Sessione non valida: aggiorna MYDBOOK_TOKEN in .env.', 401);
+          if (authenticate && (url.origin !== config.baseUrl || url.pathname.includes('/login'))) throw new ApiError('Sessione non valida: accedi nuovamente al provider.', 401);
+          if (!authenticate) publicUrl(url);
           if (hop === 7) throw new ApiError('Troppi reindirizzamenti dal sito.');
         }
         if ([401, 403].includes(response.status)) {

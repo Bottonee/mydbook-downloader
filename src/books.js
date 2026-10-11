@@ -5,29 +5,21 @@ import cliProgress from 'cli-progress';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { ApiError } from './api.js';
 import { config } from './config.js';
+import { PDFDocument } from 'pdf-lib';
+import { safeId } from './providers/common.js';
+import { listMydbookBooks, mydbookMetadata, downloadMydbookPage } from './providers/mydbook.js';
 
-export function safeId(id) {
-  if (typeof id !== 'string' || !/^[A-Za-z0-9_-]+$/.test(id)) throw new ApiError('Identificativo libro non valido.');
-  return id;
-}
-export async function listBooks(api) {
-  const data = await api.pageProps(config.libraryPath);
-  const block = data.blocks?.find(b => b.blockConfiguration?.i18n?.key === config.libraryBlockKey);
-  if (!Array.isArray(block?.blockConfiguration?.volumes) || !Array.isArray(data.user.bookcodes)) throw new ApiError('Struttura libreria cambiata: ripeti la discovery.');
-  const allowed = new Set(data.user.bookcodes);
-  return [...new Map(block.blockConfiguration.volumes.filter(b => allowed.has(b.bookcode)).map(b => [b.bookcode, { id: safeId(b.bookcode), title: b.title, subtitle: b.subtitle, coverUrl: b.coverUrl || null }])).values()];
-}
-export async function bookMetadata(api, book) {
-  const data = await api.pageProps(config.bookPath(safeId(book.id)));
-  if (!data.user.bookcodes?.includes(book.id)) throw new ApiError('Libro non presente nella tua libreria.', 403);
-  if (!data.listPages?.length || !data.infoFixedPage) throw new ApiError('Questo libro non dispone di pagine a impaginazione fissa; formato non supportato.');
-  const pages = data.listPages.map(p => ({ id: String(p.id), position: p.position }));
-  if (pages.some(p => !p.id) || new Set(pages.map(p => p.id)).size !== pages.length) throw new ApiError('Elenco pagine incoerente: ripeti la discovery.');
-  return { ...book, title: data.infoFixedPage.title || book.title, pages };
-}
-export const pageFilename = index => `${String(index + 1).padStart(6, '0')}.png`;
+// Compatibility exports for existing CLI consumers; implementation lives in the provider.
+export { safeId };
+export const listBooks = listMydbookBooks;
+export const bookMetadata = mydbookMetadata;
+export const pageFilename = (index, type = 'png') => `${String(index + 1).padStart(6, '0')}.${type === 'pdf' ? 'pdf' : 'png'}`;
 export async function validPage(file) {
-  try { await imageToPng(await readFile(file)); return true; } catch { return false; }
+  try {
+    const bytes = await readFile(file);
+    if (path.extname(file) === '.pdf') return (await PDFDocument.load(bytes)).getPageCount() === 1;
+    await imageToPng(bytes); return true;
+  } catch { return false; }
 }
 export async function downloadPages(api, book, { quiet = false, limit = book.pages.length, tmpDir = config.tmpDir, onProgress = () => {} } = {}) {
   const folder = path.join(tmpDir, safeId(book.id));
@@ -42,7 +34,7 @@ export async function downloadPages(api, book, { quiet = false, limit = book.pag
   if (!quiet) bar.start(limit, 0);
   let cursor = 0, done = 0, downloaded = 0, resumed = 0, failure;
   onProgress({ phase: 'download', completed: 0, total: limit, downloaded, resumed });
-  const files = book.pages.slice(0, limit).map((_, i) => path.join(folder, pageFilename(i)));
+  const files = book.pages.slice(0, limit).map((page, i) => path.join(folder, pageFilename(i, page.type)));
   const worker = async () => {
     while (!failure && cursor < limit) {
       const i = cursor++, page = book.pages[i];
@@ -51,13 +43,18 @@ export async function downloadPages(api, book, { quiet = false, limit = book.pag
         if (!await validPage(files[i])) {
           await sleep(config.delayMs + Math.random() * 100, undefined, { signal: api.signal });
           // Recuperare l'URL a ogni pagina evita di conservare firme scadute su disco.
-          const details = await api.json(config.pageDetailsPath(book.id, page.id));
-          const item = details.pages?.find(p => String(p.id) === page.id);
-          if (!item?.url) throw new ApiError(`Pagina mancante: ${page.id}.`);
-          const bytes = await api.request(item.url, { binary: true });
-          let png;
-          try { png = await imageToPng(bytes); } catch { throw new ApiError(`Conversione immagine fallita alla pagina ${page.id}: controlla il formato e l'installazione Chromium (npx playwright install chromium).`); }
-          await writeFile(files[i] + '.part', png);
+          const resource = api.downloadPage ? await api.downloadPage({ ...page, bookId: book.id }) : await downloadMydbookPage(api, { ...page, bookId: book.id });
+          const bytes = resource.buffer;
+          let content;
+          if (page.type === 'pdf') {
+            try {
+              if (resource.type !== 'pdf' || (await PDFDocument.load(bytes)).getPageCount() !== 1) throw new Error();
+              content = bytes;
+            } catch { throw new ApiError(`Pagina ${i + 1}: PDF mancante, danneggiato o composto da più pagine.`); }
+          } else {
+            try { content = await imageToPng(bytes); } catch { throw new ApiError(`Conversione immagine fallita alla pagina ${page.id}: controlla il formato e l'installazione Chromium (npx playwright install chromium).`); }
+          }
+          await writeFile(files[i] + '.part', content);
           await rename(files[i] + '.part', files[i]);
           downloaded++;
         } else resumed++;

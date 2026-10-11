@@ -2,12 +2,15 @@ import { readFile, mkdir, writeFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { ApiError } from '../src/api.js';
 export class TokenVault {
-  constructor(folder, storage, platform = process.platform) { this.file = path.join(folder, 'token.bin'); this.storage = storage; this.platform = platform; }
+  constructor(folder, storage, platform = process.platform, provider) {
+    if (provider !== undefined && !['mydbook', 'bsmart'].includes(provider)) throw new ApiError('Provider non valido.');
+    this.file = path.join(folder, provider ? `token-${provider}.bin` : 'token.bin'); this.storage = storage; this.platform = platform;
+  }
   available() { return this.storage.isEncryptionAvailable() && (this.platform !== 'linux' || this.storage.getSelectedStorageBackend() !== 'basic_text'); }
   async load() {
     if (!this.available()) return null;
     try { return this.storage.decryptString(await readFile(this.file)); }
-    catch (error) { if (error.code === 'ENOENT') return null; throw new ApiError('Il token salvato non è leggibile. Incollalo di nuovo o disattiva Ricordami.'); }
+    catch (error) { if (error.code === 'ENOENT') return null; throw new ApiError('Il token salvato non è leggibile. Accedi di nuovo oppure usa il token manuale.'); }
   }
   async save(token) {
     if (!this.available()) throw new ApiError('Archivio sicuro del sistema non disponibile. Disattiva Ricordami per continuare senza salvare il token.');

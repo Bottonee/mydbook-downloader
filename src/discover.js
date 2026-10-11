@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
 import { ApiError, loadToken } from './api.js';
 import { config } from './config.js';
+import { discoverBsmart } from './discover-bsmart.js';
 
 function schema(value, depth = 0) {
   if (value === null) return 'null';
@@ -18,7 +19,11 @@ function safeUrl(value, token) {
 }
 let browser;
 try {
-  const { values } = parseArgs({ options: { book: { type: 'string' }, headed: { type: 'boolean' } } });
+  const { values } = parseArgs({ options: { provider: { type: 'string', default: 'mydbook' }, book: { type: 'string' }, headed: { type: 'boolean' } } });
+  if (values.provider === 'bsmart') {
+    await discoverBsmart(values);
+  } else {
+  if (values.provider !== 'mydbook') throw new ApiError('Provider non valido.');
   const token = loadToken();
   browser = await chromium.launch({ headless: !values.headed });
   const context = await browser.newContext();
@@ -91,6 +96,7 @@ try {
     reader: { bookId: chosen.bookcode, totalPages: reader.listPages.length, listPagesSchema: schema(reader.listPages), infoFixedPageSchema: schema(reader.infoFixedPage) }, traffic,
   }, null, 2));
   console.log(`Discovery completata: ${allowed.length} libri, ${reader.listPages.length} pagine nel libro verificato. Report senza credenziali: docs/discovery.json; riepilogo: docs/endpoints.md.`);
+  }
 } catch (error) {
   console.error(error instanceof ApiError ? error.message : 'Discovery non completata: verifica Chromium, rete e token. Se il sito non è accessibile, serve un HAR esportato dalla libreria e dal lettore autenticati.');
   process.exitCode = 1;
