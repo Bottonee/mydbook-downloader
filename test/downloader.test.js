@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 import { Api } from '../src/api.js';
 import { config } from '../src/config.js';
 import { downloadPages, pageFilename } from '../src/books.js';
-import { closeImages } from '../src/images.js';
+import { closeImages, imageToJpeg } from '../src/images.js';
 import { mergePdf, sanitizeTitle } from '../src/pdf.js';
 
 test('retry 500, errore 401 senza retry e credenziali limitate al sito', async () => {
@@ -65,12 +65,62 @@ test('concorrenza, ripresa, riparazione di pagine corrotte e ordine/dimensioni P
     await downloadPages(api, book, { quiet: true });
     assert.equal(requests, 1);
     assert.deepEqual(files.map(f => path.basename(f)), book.pages.map((_, i) => pageFilename(i)));
-    const target = await mergePdf(book, files);
+    const target = await mergePdf(book, files, { quiet: true });
     const pdf = await PDFDocument.load(await readFile(target));
     assert.equal(pdf.getPageCount(), 6);
     assert.deepEqual(pdf.getPages().map(p => [p.getWidth(), p.getHeight()]), [[17, 23], [41, 13], [17, 23], [17, 23], [17, 23], [17, 23]]);
     await assert.rejects(mergePdf(book, files.slice(1)), /Pagine mancanti/);
     assert.equal(sanitizeTitle('CON'), '_CON');
     assert.equal(sanitizeTitle('a/b:c'), 'a_b_c');
+  } finally { await closeImages(); }
+});
+
+test('compressione JPEG: qualità, dimensioni, sfondo bianco e originali invariati', async () => {
+  await mkdir(config.tmpDir, { recursive: true });
+  const folder = await mkdtemp(path.join(path.resolve(config.tmpDir), 'test-compression-'));
+  const browser = await chromium.launch();
+  let png;
+  try {
+    const page = await browser.newPage();
+    const base64 = await page.evaluate(() => {
+      const canvas = document.createElement('canvas'); canvas.width = 320; canvas.height = 400;
+      const context = canvas.getContext('2d');
+      const pixels = context.createImageData(320, 400);
+      let seed = 42;
+      for (let i = 0; i < pixels.data.length; i += 4) {
+        for (let c = 0; c < 3; c++) { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; pixels.data[i + c] = seed >>> 24; }
+        pixels.data[i + 3] = 255;
+      }
+      context.putImageData(pixels, 0, 0);
+      context.clearRect(0, 0, 20, 20);
+      return canvas.toDataURL('image/png').split(',')[1];
+    });
+    png = Buffer.from(base64, 'base64');
+    assert.throws(() => imageToJpeg(png, 0), /tra 1 e 100/);
+    assert.throws(() => imageToJpeg(png, 101), /tra 1 e 100/);
+    const jpeg = await imageToJpeg(png, 80);
+    const corner = await page.evaluate(async base64 => {
+      const image = new Image(); image.src = `data:image/jpeg;base64,${base64}`; await image.decode();
+      const canvas = document.createElement('canvas'); canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d'); context.drawImage(image, 0, 0);
+      return [...context.getImageData(0, 0, 1, 1).data];
+    }, jpeg.toString('base64'));
+    assert.ok(corner.slice(0, 3).every(c => c >= 250)); assert.equal(corner[3], 255);
+  } finally { await browser.close(); }
+  try {
+    const file = path.join(folder, '000001.png'); await writeFile(file, png);
+    const book = { id: path.basename(folder), title: path.basename(folder), pages: [{ id: 'copertina' }] };
+    const original = await mergePdf(book, [file], { quiet: true });
+    const small = await mergePdf(book, [file], { compress: true, quality: 40, quiet: true });
+    const high = await mergePdf(book, [file], { compress: true, quality: 90, quiet: true });
+    const smallBytes = await readFile(small);
+    assert.ok(smallBytes.length < (await readFile(high)).length);
+    assert.ok(smallBytes.length < (await readFile(original)).length);
+    assert.ok(smallBytes.includes(Buffer.from('/DCTDecode')));
+    const pdf = await PDFDocument.load(smallBytes);
+    assert.equal(pdf.getPageCount(), 1);
+    assert.deepEqual([pdf.getPage(0).getWidth(), pdf.getPage(0).getHeight()], [320, 400]);
+    assert.deepEqual(await readFile(file), png);
+    assert.notEqual(small, original);
   } finally { await closeImages(); }
 });

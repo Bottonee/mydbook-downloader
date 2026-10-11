@@ -3,12 +3,14 @@ import { parseArgs } from 'node:util';
 import { Api, ApiError, loadToken } from './api.js';
 import { listBooks, bookMetadata, downloadPages } from './books.js';
 import { mergePdf } from './pdf.js';
-import { closeImages } from './images.js';
+import { closeImages, validateJpegQuality } from './images.js';
 
 const controller = new AbortController();
 process.once('SIGINT', () => controller.abort());
 try {
-  const { values } = parseArgs({ options: { book: { type: 'string' }, list: { type: 'boolean' }, sample: { type: 'string' } } });
+  const { values } = parseArgs({ options: { book: { type: 'string' }, list: { type: 'boolean' }, sample: { type: 'string' }, compress: { type: 'boolean' }, quality: { type: 'string' } } });
+  const compress = Boolean(values.compress || values.quality !== undefined);
+  const quality = validateJpegQuality(values.quality === undefined ? 80 : Number(values.quality));
   const api = new Api(loadToken(), controller.signal);
   const books = await listBooks(api);
   if (!books.length) throw new ApiError('Nessun libro disponibile nella tua libreria.');
@@ -32,7 +34,7 @@ try {
       // Il manifest deve restare completo anche durante una prova parziale.
       const downloadBook = { ...full, pages: full.pages.slice(0, count) };
       const files = await downloadPages(api, full, { limit: count });
-      const target = await mergePdf(downloadBook, files, { sample: Boolean(values.sample), signal: controller.signal });
+      const target = await mergePdf(downloadBook, files, { sample: Boolean(values.sample), signal: controller.signal, compress, quality });
       console.log(`PDF salvato: ${target}`);
     } else console.log('Operazione annullata.');
   }
