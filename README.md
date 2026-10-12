@@ -45,6 +45,21 @@ npm run discover -- --provider bsmart --headed
 
 `Ctrl+C` interrompe la CLI; ripeti il comando per riprendere. Per bSmart non serve Chromium per assemblare le pagine e `--compress` non modifica i PDF nativi. La discovery MyDBook mantiene il flusso esistente con token nell'ambiente: [docs/endpoints.md](docs/endpoints.md). Quella bSmart permette login manuale e navigazione, quindi salva solo schemi, nomi di cookie/header e query senza valori in `docs/bsmart-discovery.json`. I nomi e gli schemi vanno comunque controllati prima di condividere il report. Per diagnosticare un libro non funzionante serve un HAR oscurato con libreria e tre pagine sfogliate: rimuovere token, cookie, firme URL e dati personali. Il mapping `page_pdf` e la decifratura sono stati ricavati dal repository indicato, senza inventare endpoint.
 
+## Pagine singole e intervalli
+
+Nel campo **Numeri stampati sul libro** puoi inserire `1, 2, 3, 4`, `17-25` o una combinazione come `1, 2, 17- 25`. Gli intervalli sono inclusivi, i duplicati vengono rimossi e le pagine mantengono l’ordine del libro. Lascia il campo vuoto per scaricare tutto, comprese copertina e pagine iniziali. Il nome del PDF parziale include `-pagine-...`, così non sovrascrive il libro completo.
+
+La selezione usa le etichette delle pagine, non gli ID degli asset né il numero progressivo del PDF. Per bSmart legge `resource.title`: in un libro reale sono state osservate pagine `I–VIII` seguite da `1, 2, 3…`; i numeri romani e la copertina non corrispondono a pagina 1. Per MyDBook legge `title` dall’elenco, quando disponibile, e dai dettagli delle singole pagine: la prima lettura può richiedere alcuni minuti, mostra un progresso ed è annullabile. Le etichette sono conservate in `page-labels.json`, senza token o URL firmati; le immagini non vengono scaricate per questa lettura.
+
+Se il provider non espone numeri utili, usa **Calibra la numerazione**: indica la posizione digitale della prima pagina numerata e il numero effettivamente stampato. Ad esempio, se dopo copertina e indice la nona pagina digitale mostra `1`, inserisci **9** e **1**. La richiesta `17-25` seleziona così le posizioni digitali 25–33, senza contare le otto pagine iniziali. La calibrazione prevale sulle etichette del provider e presuppone una sequenza consecutiva dopo il punto iniziale. Per numerazioni che ripartono o hanno salti, usa le etichette del provider; numeri mancanti o ripetuti producono un errore esplicito. Non viene indovinato uno scarto e non viene usato OCR per dedurre i numeri.
+
+```powershell
+npm run cli -- --provider bsmart --book 12345 --pages "1, 2, 17-25"
+npm run cli -- --provider mydbook --book GIAC23_G2350103A --pages "17-25" --first-digital-page 9 --first-book-page 1
+```
+
+`--pages` non si combina con `--sample`; compressione e OCR restano disponibili. La cache conserva i nomi basati sulla posizione originale, quindi download parziali, altri intervalli e libro completo riutilizzano le stesse pagine. I PDF esportati includono anche le etichette di pagina per i lettori che le supportano, se disponibili per tutte le pagine esportate. La verifica autenticata della numerazione bSmart è riuscita; per MyDBook il tentativo attuale ha restituito 404 e la nuova mappatura è stata verificata con risposte simulate.
+
 ## Build e installer
 
 I PDF con OCR hanno il suffisso `-ocr.pdf`, anche insieme a compressione/campione. I risultati OCR delle singole pagine sono conservati accanto ai PNG in cache, con un hash dell’immagine: annullare e riprendere riutilizza il testo già riconosciuto; se l’immagine cambia, l’OCR viene rifatto. Per disattivarlo basta togliere la spunta. Su bSmart `--ocr` viene ignorato senza rasterizzare o riconoscere nuovamente le pagine.
@@ -54,7 +69,7 @@ npm run dist
 npm run verify:package
 ```
 
-Genera `dist/MyDbook Downloader-1.4.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.4.0` e verifica il relativo `app.asar`.
+Genera `dist/MyDbook Downloader-1.5.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.5.0` e verifica il relativo `app.asar`.
 
 La whitelist del pacchetto include tutti i provider e la pipeline condivisa, con le sole dipendenze di produzione. Playwright, `.env`, cache, output, test, script discovery e vault sono esclusi. `verify:package` controlla `app.asar`. GitHub Actions esegue test unitari e desktop offline, build e verifica su `windows-latest` con Node 24; carica l'installer nell'artifact **mydbook-downloader-windows**. Non servono token degli account.
 

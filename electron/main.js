@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { ApiError, validateToken } from '../src/api.js';
+import { parsePages } from '../src/page-selection.js';
 import { safeId } from '../src/books.js';
 import { getProvider, providerList } from '../src/providers/index.js';
 import { validateJpegQuality } from '../src/images.js';
@@ -87,7 +88,10 @@ else {
     const handle = (channel, action) => ipcMain.handle(channel, async (event, ...args) => {
       if (!window || event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame || event.senderFrame.url !== uiUrl) return { ok: false, message: 'Richiesta non autorizzata.' };
       try { return { ok: true, ...(await action(...args)) }; }
-      catch (error) { emitAccount({ connecting: false }); return { ok: false, message: userError(error, selectedAccount().token) }; }
+      catch (error) {
+        if (['app:state', 'provider:select', 'provider:login', 'provider:disconnect', 'books:load', 'token:forget'].includes(channel)) emitAccount({ connecting: false });
+        return { ok: false, message: userError(error, selectedAccount().token) };
+      }
     });
     const exclusive = action => async (...args) => {
       if (job || loading) throw new ApiError('Attendi la fine dell’operazione in corso.');
@@ -127,6 +131,7 @@ else {
       if (job || loading) throw new ApiError('È già in corso un’operazione.');
       if (!data || typeof data.compress !== 'boolean') throw new ApiError('Opzioni download non valide.');
       if (data.ocr !== undefined && typeof data.ocr !== 'boolean') throw new ApiError('Opzione OCR non valida.');
+      parsePages(data.pageSelection);
       const account = selectedAccount(), provider = getProvider(providerId);
       const id = safeId(data.id), selected = account.books.find(book => book.id === id);
       if (!selected) throw new ApiError('Libro non trovato. Carica i tuoi libri e seleziona un titolo.');
@@ -141,7 +146,7 @@ else {
       }
       const quality = validateJpegQuality(data.quality);
       const tmpDir = app.isPackaged || testDirectory ? path.join(dataDir, 'tmp') : path.resolve(directory, '../tmp');
-      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality, ocr: providerId === 'mydbook' && data.ocr === true }, event => {
+      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality, ocr: providerId === 'mydbook' && data.ocr === true, pageSelection: data.pageSelection, firstDigitalPage: data.firstDigitalPage, firstBookPage: data.firstBookPage }, event => {
         if (['done', 'failed', 'cancelled'].includes(event.type)) job = null;
         if (window && !window.isDestroyed()) window.webContents.send('download:event', event);
         if (event.type === 'failed' && [401, 403].includes(event.status)) {

@@ -21,7 +21,10 @@ export async function validPage(file) {
     await imageToPng(bytes); return true;
   } catch { return false; }
 }
-export async function downloadPages(api, book, { quiet = false, limit = book.pages.length, tmpDir = config.tmpDir, onProgress = () => {} } = {}) {
+export async function downloadPages(api, book, { quiet = false, limit = book.pages.length, indices, tmpDir = config.tmpDir, onProgress = () => {} } = {}) {
+  const chosen = indices ?? book.pages.slice(0, limit).map((_, i) => i);
+  if (!Array.isArray(chosen) || !chosen.length || new Set(chosen).size !== chosen.length || chosen.some(i => !Number.isInteger(i) || i < 0 || i >= book.pages.length)) throw new ApiError('Selezione pagine non valida.');
+  limit = chosen.length;
   const folder = path.join(tmpDir, safeId(book.id));
   await mkdir(folder, { recursive: true });
   const manifestPath = path.join(folder, 'manifest.json');
@@ -34,10 +37,10 @@ export async function downloadPages(api, book, { quiet = false, limit = book.pag
   if (!quiet) bar.start(limit, 0);
   let cursor = 0, done = 0, downloaded = 0, resumed = 0, failure;
   onProgress({ phase: 'download', completed: 0, total: limit, downloaded, resumed });
-  const files = book.pages.slice(0, limit).map((page, i) => path.join(folder, pageFilename(i, page.type)));
+  const files = chosen.map(index => path.join(folder, pageFilename(index, book.pages[index].type)));
   const worker = async () => {
     while (!failure && cursor < limit) {
-      const i = cursor++, page = book.pages[i];
+      const i = cursor++, page = book.pages[chosen[i]];
       try {
         api.signal?.throwIfAborted();
         if (!await validPage(files[i])) {

@@ -6,23 +6,29 @@ import { downloadPages } from './books.js';
 import { mergePdf } from './pdf.js';
 import { getProvider } from './providers/index.js';
 import { safeId } from './providers/common.js';
+import { parsePages, selectPages } from './page-selection.js';
 
 // A single orchestration pipeline for desktop and CLI, independent of the provider transport.
-export async function downloadBook({ provider: id = 'mydbook', token, book, signal, tmpDir = config.tmpDir, outputDir = config.outputDir, compress = false, quality = 80, ocr = false, limit, quiet = false, onProgress = () => {} }) {
+export async function downloadBook({ provider: id = 'mydbook', token, book, signal, tmpDir = config.tmpDir, outputDir = config.outputDir, compress = false, quality = 80, ocr = false, limit, pageSelection, firstDigitalPage, firstBookPage = 1, quiet = false, onProgress = () => {} }) {
   const provider = getProvider(id);
+  const requested = parsePages(pageSelection);
+  if (requested && limit !== undefined) throw new ApiError('Non combinare un campione con la selezione di pagine.');
   safeId(book.id);
+  let cacheDir = path.join(tmpDir, id);
+  if (id === 'mydbook') {
+    try { await access(path.join(tmpDir, book.id, 'manifest.json')); cacheDir = tmpDir; } catch {}
+  }
   onProgress({ phase: 'metadata', completed: 0, total: 0 });
-  const metadata = provider.getMetadata ? await provider.getMetadata(token, book.id, { signal }) : { pages: await provider.getPages(token, book.id, { signal }) };
+  const resolveLabels = Boolean(requested && id === 'mydbook' && (firstDigitalPage === undefined || firstDigitalPage === null || firstDigitalPage === ''));
+  if (resolveLabels && !quiet) console.log('Lettura delle etichette di pagina MyDBook. La prima volta può richiedere alcuni minuti.');
+  const metadata = provider.getMetadata ? await provider.getMetadata(token, book.id, { signal, resolveLabels, labelsCache: path.join(cacheDir, book.id, 'page-labels.json'), onProgress }) : { pages: await provider.getPages(token, book.id, { signal }) };
   const pages = metadata.pages;
   const full = { ...book, ...metadata, provider: id, pages };
+  const selection = selectPages(pages, pageSelection, { firstDigitalPage, firstBookPage });
   const count = limit ?? pages.length;
   if (!Number.isInteger(count) || count < 1 || count > pages.length) throw new ApiError('Il numero di pagine deve essere un intero tra 1 e il totale.');
   const transport = { signal, downloadPage: page => provider.downloadPage(token, page, { signal }) };
-  let cacheDir = path.join(tmpDir, id);
-  if (id === 'mydbook') {
-    // Preserve downloads made before provider folders were introduced.
-    try { await access(path.join(tmpDir, book.id, 'manifest.json')); cacheDir = tmpDir; } catch {}
-  }
-  const files = await downloadPages(transport, full, { quiet, tmpDir: cacheDir, limit: count, onProgress });
-  return mergePdf({ ...full, pages: pages.slice(0, count) }, files, { quiet, signal, compress, quality, ocr: id === 'mydbook' && ocr, outputDir: path.join(outputDir, id), sample: count < pages.length, onProgress });
+  const indices = requested ? selection.indices : pages.slice(0, count).map((_, i) => i);
+  const files = await downloadPages(transport, full, { quiet, tmpDir: cacheDir, indices, onProgress });
+  return mergePdf({ ...full, pages: requested ? selection.pages : pages.slice(0, count) }, files, { quiet, signal, compress, quality, ocr: id === 'mydbook' && ocr, outputDir: path.join(outputDir, id), sample: !requested && count < pages.length, selectionSuffix: selection.suffix, onProgress });
 }

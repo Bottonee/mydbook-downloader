@@ -8,5 +8,5 @@ globalThis.fetch = async (url, { headers }) => {
     return new Response(encryptedResource(pages[Number(parsed.pathname.slice(1))]));
   }
   if (parsed.pathname.includes('/by_book_id/')) return new Response(JSON.stringify({ id: 42, title: 'Libro bSmart offline', current_edition: { revision: 7 } }));
-  return new Response(JSON.stringify([{ assets: pages.map((_, i) => ({ id: i + 1, use: 'page_pdf', url: `https://cdn.example/${i}`, encrypted: true })) }]));
+  return new Response(JSON.stringify(pages.map((_, i) => ({ title: String(i + 1), assets: [{ id: i + 1, use: 'page_pdf', url: `https://cdn.example/${i}`, encrypted: true }] }))));
 };

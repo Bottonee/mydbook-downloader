@@ -12,7 +12,7 @@ export const bsmartConfig = Object.freeze({
   revisionPath: id => `/api/v5/books/${encodeURIComponent(id)}`,
   indexPath: (id, revision) => `/api/v5/books/${encodeURIComponent(id)}/${encodeURIComponent(revision)}/index`,
   resourcesPath: (id, revision) => `/api/v5/books/${encodeURIComponent(id)}/${encodeURIComponent(revision)}/resources`,
-  fields: { id: 'id', title: 'title', authors: 'authors', pagesCount: 'page_count', edition: 'current_edition', revision: 'revision', encrypted: 'encrypted', cover: null, assets: 'assets', use: 'use', url: 'url', filename: 'filename', preactivationBooks: 'books', noBsmart: 'no_bsmart' },
+  fields: { id: 'id', title: 'title', pageLabel: 'title', authors: 'authors', pagesCount: 'page_count', edition: 'current_edition', revision: 'revision', encrypted: 'encrypted', cover: null, assets: 'assets', use: 'use', url: 'url', filename: 'filename', preactivationBooks: 'books', noBsmart: 'no_bsmart' },
   extraction: { origins: ['https://my.bsmart.it', 'https://www.bsmart.it'], cookieNames: [], storageKeys: [], headerNames: ['AUTH_TOKEN'], headerScheme: '', urlKeys: [] },
   // Resource mapping and format verified against Leone25/bSmart-downloader (MIT).
   pageResources: 'page_pdf',

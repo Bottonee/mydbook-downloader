@@ -68,6 +68,13 @@ try {
   }
   // Avvio e annullamento della GUI: nessun download completo durante la verifica.
   if (!packaged) {
+  await window.locator('#page-selection').fill('17-'); await window.locator('#download').click();
+  await window.waitForFunction(() => document.getElementById('notice').textContent.includes('Formato pagine'));
+  assert.match(await window.locator('#notice').innerText(), /Formato pagine/);
+  assert.equal(await window.locator('#download').isEnabled(), true);
+  await window.locator('#page-selection').fill('1, 2-3');
+  assert.equal(await window.locator('#first-digital-page').isEnabled(), true);
+  await window.locator('#page-selection').fill('');
   await window.locator('#download').click(); await window.locator('#cancel').click();
   await window.waitForFunction(() => document.getElementById('cancel').hidden, { timeout: 10000 });
   assert.match(await window.locator('#notice').innerText(), /annullata/);
@@ -124,15 +131,15 @@ try {
     const requireModule = process.getBuiltinModule('node:module').createRequire(app.getAppPath() + '/package.json');
     const { DownloadJob } = requireModule('./electron/download-job.js');
     return new Promise(resolve => {
-      new DownloadJob({ provider: 'bsmart', token: 'bsmart-fixture', book: { id: '42', title: 'Libro bSmart offline' }, outputDir, tmpDir }, event => {
+      new DownloadJob({ provider: 'bsmart', token: 'bsmart-fixture', book: { id: '42', title: 'Libro bSmart offline' }, outputDir, tmpDir, pageSelection: '2-3' }, event => {
         if (event.type !== 'progress') resolve(event);
       }, { execArgv: ['--import', fixtureUrl] });
     });
   }, { fixtureUrl: pathToFileURL(path.resolve('test/bsmart-worker-fixture.mjs')).href, outputDir, tmpDir: path.resolve('tmp/desktop-smoke/bsmart-cache') });
   assert.equal(smartResult.type, 'done');
   const smartPdf = await PDFDocument.load(await readFile(smartResult.target));
-  assert.equal(smartPdf.getPageCount(), 3);
-  assert.deepEqual(smartPdf.getPages().map(page => page.getWidth()), [300, 301, 302]);
+  assert.equal(smartPdf.getPageCount(), 2);
+  assert.deepEqual(smartPdf.getPages().map(page => page.getWidth()), [301, 302]);
   await window.locator('#disconnect').click(); await window.waitForFunction(() => document.getElementById('connection').textContent === 'Non connesso');
   }
   console.log(packaged ? 'App confezionata verificata: isolamento, safeStorage e worker PDF da app.asar senza Playwright.' : 'Desktop verificato: isolamento, login cookie MyDBook/header bSmart, vault separati, pipe CLI, riconnessione, disconnessione, worker PDF e annullamento.');

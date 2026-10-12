@@ -32,7 +32,7 @@ export const bsmart = {
           if (!id || seen.has(id) || typeof asset[fields.url] !== 'string') throw new ApiError('Identificativi o URL delle pagine bSmart mancanti/duplicati.');
           seen.add(id);
           // Preserve API resource/asset order, as in the reference downloader.
-          pages.push({ id, position: pages.length, bookId: String(bookId), url: asset[fields.url], encrypted: asset[fields.encrypted] !== false, type: config.pageType });
+          pages.push({ id, position: pages.length, bookId: String(bookId), url: asset[fields.url], encrypted: asset[fields.encrypted] !== false, type: config.pageType, label: resource[fields.pageLabel] });
         }
       }
       if (resources.length < config.resourcesPerPage) {

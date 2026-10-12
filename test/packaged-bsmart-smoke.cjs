@@ -10,7 +10,7 @@ const { PDFDocument } = require('pdf-lib');
   const target = await new Promise((resolve, reject) => {
     const worker = new Worker(path.join(asar, 'electron/download-worker.js'), {
       execArgv: ['--import', pathToFileURL(path.resolve('test/bsmart-worker-fixture.mjs')).href],
-      workerData: { provider: 'bsmart', token: 'bsmart-fixture', book: { id: '42', title: 'Libro bSmart offline' }, tmpDir: path.resolve('tmp/packaged-bsmart/cache'), outputDir: path.resolve('tmp/packaged-bsmart/output') },
+      workerData: { provider: 'bsmart', token: 'bsmart-fixture', book: { id: '42', title: 'Libro bSmart offline' }, tmpDir: path.resolve('tmp/packaged-bsmart/cache'), outputDir: path.resolve('tmp/packaged-bsmart/output'), pageSelection: process.argv[3] || undefined },
     });
     const timer = setTimeout(() => { worker.terminate(); reject(new Error('Timeout worker confezionato')); }, 30000);
     worker.on('message', event => {
@@ -21,7 +21,7 @@ const { PDFDocument } = require('pdf-lib');
     worker.on('exit', code => { clearTimeout(timer); if (code !== 0) reject(new Error('Worker interrotto')); });
   });
   const pdf = await PDFDocument.load(await readFile(target));
-  assert.equal(pdf.getPageCount(), 3);
-  assert.deepEqual(pdf.getPages().map(page => page.getWidth()), [300, 301, 302]);
+  assert.equal(pdf.getPageCount(), process.argv[3] ? 2 : 3);
+  assert.deepEqual(pdf.getPages().map(page => page.getWidth()), process.argv[3] ? [301, 302] : [300, 301, 302]);
   console.log('Worker bSmart confezionato verificato: pagine cifrate sintetiche, MessagePack e PDF nativi da app.asar.');
 })().catch(error => { console.error(error.message); process.exitCode = 1; });

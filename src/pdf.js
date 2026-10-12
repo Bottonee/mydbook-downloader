@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFString } from 'pdf-lib';
 import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { config } from './config.js';
@@ -13,7 +13,7 @@ export function sanitizeTitle(title) {
   if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(name)) name = '_' + name;
   return name;
 }
-export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, ocr = false, quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
+export async function mergePdf(book, files, { sample = false, signal, compress = false, quality = 80, ocr = false, selectionSuffix = '', quiet = false, outputDir = config.outputDir, onProgress = () => {} } = {}) {
   if (files.length !== book.pages.length) throw new ApiError('Pagine mancanti: PDF non creato.');
   // Native PDF pages retain text/vectors; JPEG compression applies only to raster pages.
   compress = compress && files.some(file => path.extname(file) !== '.pdf');
@@ -51,9 +51,14 @@ export async function mergePdf(book, files, { sample = false, signal, compress =
       onProgress({ phase: 'pdf', completed: i + 1, total: files.length });
     }
   } finally { if (!quiet) bar.stop(); await recognition?.close(); }
+  const labels = [];
+  if (book.pages.every(page => typeof page.label === 'string' && page.label.trim())) {
+    for (let i = 0; i < book.pages.length; i++) labels.push(i, { P: PDFString.of(book.pages[i].label.slice(0, 64)) });
+  }
+  if (labels.length) pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: labels }));
   await mkdir(outputDir, { recursive: true });
-  const suffix = (sample ? `-campione-${files.length}` : '') + (compress ? `-compresso-q${quality}` : '') + (ocr ? '-ocr' : '');
-  const target = path.join(outputDir, `${sanitizeTitle(book.title)}${suffix}.pdf`);
+  const suffix = (sample ? `-campione-${files.length}` : '') + selectionSuffix + (compress ? `-compresso-q${quality}` : '') + (ocr ? '-ocr' : '');
+  const target = path.join(outputDir, `${sanitizeTitle(book.title).slice(0, Math.max(30, 150 - suffix.length))}${suffix}.pdf`);
   if (!quiet) console.log('Salvataggio PDF...');
   onProgress({ phase: 'saving', completed: 0, total: files.length });
   const bytes = await pdf.save();

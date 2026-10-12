@@ -8,7 +8,8 @@ function log(message) {
   if ($('log').children.length > 150) $('log').firstElementChild.remove(); $('log').scrollTop = $('log').scrollHeight;
 }
 function updateControls() {
-  for (const id of ['provider', 'login', 'disconnect', 'token', 'remember', 'load', 'choose-output', 'compress']) $(id).disabled = busy || loading;
+  for (const id of ['provider', 'login', 'disconnect', 'token', 'remember', 'load', 'choose-output', 'compress', 'page-selection']) $(id).disabled = busy || loading;
+  for (const id of ['first-digital-page', 'first-book-page']) $(id).disabled = busy || loading || !$('page-selection').value.trim();
   $('remember').disabled ||= !canRemember;
   $('compress').disabled ||= !compressionSupported;
   $('ocr').disabled = busy || loading || $('provider').value !== 'mydbook';
@@ -64,11 +65,12 @@ function renderBooks() {
     const text = document.createElement('span'), title = document.createElement('strong'), id = document.createElement('small');
     title.textContent = book.title; id.textContent = book.id; text.append(title, id);
     if (book.subtitle) { const subtitle = document.createElement('small'); subtitle.className = 'subtitle'; subtitle.textContent = book.subtitle; text.append(subtitle); }
-    button.append(text); button.addEventListener('click', () => { selected = book; $('selected-title').textContent = book.title; $('selected-id').textContent = book.id; renderBooks(); updateControls(); }); $('books').append(button);
+    button.append(text); button.addEventListener('click', () => { if (selected?.id !== book.id) { $('first-digital-page').value = ''; $('first-book-page').value = '1'; } selected = book; $('selected-title').textContent = book.title; $('selected-id').textContent = book.id; renderBooks(); updateControls(); }); $('books').append(button);
   }
 }
 $('search').addEventListener('input', renderBooks);
 $('compress').addEventListener('change', updateControls);
+$('page-selection').addEventListener('input', updateControls);
 $('remember').addEventListener('change', async () => {
   if (!$('remember').checked) { const response = await api.forgetToken(); if (!response.ok) notice(response.message, true); else if (!$('token').value) $('token').placeholder = 'Token attivo per questa sessione'; }
 });
@@ -87,14 +89,15 @@ $('download').addEventListener('click', async () => {
   const quality = Number($('quality').value);
   if (!Number.isInteger(quality) || quality < 1 || quality > 100) { notice('La qualità JPEG deve essere tra 1 e 100.', true); return; }
   busy = true; phase = undefined; $('progress').removeAttribute('value'); $('phase').textContent = 'Preparazione…'; $('page-count').textContent = ''; updateControls();
-  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality, ocr: $('provider').value === 'mydbook' && $('ocr').checked });
+  const pageSelection = $('page-selection').value.trim();
+  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality, ocr: $('provider').value === 'mydbook' && $('ocr').checked, pageSelection, firstDigitalPage: pageSelection && $('first-digital-page').value ? Number($('first-digital-page').value) : undefined, firstBookPage: Number($('first-book-page').value) });
   if (!response.ok) { busy = false; notice(response.message, true); log(response.message); $('progress').value = 0; updateControls(); }
   else { notice('Download in corso. Puoi annullare e riprenderlo in seguito.'); log(`Avvio: ${selected.title}.`); }
 });
 $('cancel').addEventListener('click', async () => { $('cancel').disabled = true; $('phase').textContent = 'Annullamento…'; const response = await api.cancel(); if (!response.ok) { notice(response.message, true); $('cancel').disabled = false; } });
 const unsubscribe = api.onDownload(event => {
   if (event.type === 'progress') {
-    const labels = { metadata: 'Lettura delle pagine del libro', download: 'Download pagine', ocr: 'Riconoscimento del testo (OCR)', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio PDF', complete: 'PDF pronto' };
+    const labels = { metadata: 'Lettura delle pagine del libro', numbering: 'Lettura della numerazione del libro', download: 'Download pagine', ocr: 'Riconoscimento del testo (OCR)', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio PDF', complete: 'PDF pronto' };
     if (phase !== event.phase) { phase = event.phase; log(labels[phase] || 'Elaborazione…'); }
     $('phase').textContent = labels[event.phase] || 'Elaborazione…';
     if (event.phase === 'metadata' || event.phase === 'saving') { $('progress').removeAttribute('value'); $('page-count').textContent = ''; }

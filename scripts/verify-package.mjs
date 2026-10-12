@@ -17,4 +17,5 @@ assert.ok(entries.includes('/src/providers/bsmart-crypto.js'));
 assert.ok(entries.includes('/node_modules/msgpack-lite/index.js'));
 assert.ok(entries.includes('/licenses/bsmart-downloader-MIT.txt'));
 assert.ok(entries.includes('/src/download.js'));
+assert.ok(entries.includes('/src/page-selection.js'));
 console.log('Pacchetto verificato: nessun Playwright, .env, cache, output o token.bin.');

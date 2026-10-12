@@ -1,6 +1,6 @@
 {
   "name": "mydbook-downloader",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -72,6 +72,7 @@
       "src/config.js",
       "src/providers/**/*",
       "src/download.js",
+      "src/page-selection.js",
       "licenses/**/*",
       "build/icon.png",
       "build/ocr/**/*",

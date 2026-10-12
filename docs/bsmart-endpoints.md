@@ -29,6 +29,8 @@ Tutti gli endpoint API seguenti sono su `https://www.bsmart.it`; l'header è `AU
 
 La copertina e i campi degli oggetti autore non sono verificati: vengono omessi, senza inventare nomi. La validazione del token legge la libreria senza creare device, modificare l'account o aprire un libro.
 
+Aggiornamento del 12 ottobre 2026: usando una sessione già salvata è stata verificata la struttura autenticata delle risorse. Ogni risorsa `page_pdf` ha un `title` che rappresenta l'etichetta della pagina: nel campione osservato `I, II, …, VIII`, poi `1, 2, 3, …`. La selezione di pagine usa questo campo, non il filename o l'ID dell'asset. Le pagine romane non vengono contate come pagina 1. Il riscontro riguarda i metadati della numerazione di un libro, non una verifica completa di tutti i libri né un download integrale.
+
 ## Pagine PDF e cifratura implementate
 
 Il bundle importa `@bsmartlabs/bsmart-encryption/asmcrypto` e il caricamento degli asset passa per `decrypt` quando `encrypted` non è esplicitamente `false`. È un'indicazione concreta di contenuti cifrati, ma senza un libro autenticato non è possibile affermare che ogni pagina di ogni libro lo sia.
