@@ -1,0 +1,3164 @@
+{
+  "provider": "zanichelli",
+  "date": "2026-10-13T19:41:42.528Z",
+  "loginUrl": "https://my.zanichelli.it/",
+  "cookieNames": [
+    "CloudFront-Policy",
+    "CloudFront-Signature",
+    "CloudFront-Key-Pair-Id",
+    "PHPSESSID",
+    "myz_session",
+    "g_state",
+    "OptanonAlertBoxClosed",
+    "_gid",
+    "_fbp",
+    "token",
+    "myz_token",
+    "_hjSessionUser_3564600",
+    "_hjSession_3564600",
+    "lastVisitedHosts",
+    "notifications",
+    "AWSALB",
+    "AWSALBCORS",
+    "z-adv-show-modal",
+    "XSRF-TOKEN",
+    "laravel_session",
+    "stack2",
+    "_ugeuid",
+    "OptanonConsent",
+    "_ga",
+    "_ga_HLT0GPY74V",
+    "_ga_H75ERVB8TD",
+    "_ga_M3CF5M6GK8",
+    "_ga_FL8QBN8HHQ"
+  ],
+  "scripts": [
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/main.7ad590c1.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/8267.69f311aa.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/8517.f5d88734.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/8329.fbbff554.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/1688.b452843f.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/1820.bb1d2cb7.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/309.07241c19.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/4565.2a710b95.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/9300.eb25de7c.chunk.js"
+    },
+    {
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/app/static/js/8011.6977a202.chunk.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/app.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/1036.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/5628.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/2647.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/8673.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/9927.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/3330.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/8056.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/9906.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/3436.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/2816.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/8269.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/3761.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/4799.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/6429.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/5740.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/6497.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/4099.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/6996.8bfe92f7.js"
+    },
+    {
+      "origin": "https://my.zanichelli.it",
+      "path": "/dboard/7021.8bfe92f7.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/services/services.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/runtime.41f8b125cdc7a3d790db.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/polyfills.96473274fe1bb21c28f6.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/config/config.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/cat-lib.bfa0f406d0aa0d6aafd4.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/main.d25c4565de9e4fe1ec7d.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/495.cd097c300af391c29fe8.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/192.b4afbfc0457535d124a0.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/libzone.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/7.ba05a19c8cee9e1714cd.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/206.ae657c5480f145053921.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/33cae0c9a09d068b595d.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/keyboardevent.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/webReader.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/mathjax.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/ReadSpeaker.Core.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/mathjax/ui/lazy.js"
+    },
+    {
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/a11y/sre.js"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/myz/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/homepage/translations/en.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/flashes",
+      "queryKeys": [],
+      "status": 204,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": ""
+    },
+    {
+      "method": "GET",
+      "origin": "https://idp.zanichelli.it",
+      "path": "/v1/user",
+      "queryKeys": [],
+      "status": 400,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "message": "string"
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://idp.zanichelli.it",
+      "path": "/v4/login/",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "content-type",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "token": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/myz/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/myz/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/dashboard/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/flashes",
+      "queryKeys": [],
+      "status": 204,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": ""
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/init",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "userId": "number",
+        "groupId": "number",
+        "token": "string",
+        "idpId": "number",
+        "idpToken": "string",
+        "isEmployee": "number"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/alerts",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "type": "array",
+        "length": 0,
+        "item": null
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/user",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "userId": "number",
+        "groupId": "number",
+        "loginId": "string",
+        "active": "number",
+        "isWarned": "null",
+        "isSuspended": "number",
+        "newsletter": "number",
+        "hideSuggestions": "null",
+        "isDeleted": "number",
+        "gdpr": "number",
+        "firstName": "string",
+        "lastName": "string",
+        "hash": "string",
+        "cf": "null",
+        "birthDate": "string",
+        "underGdpr": "boolean",
+        "selfConfirmation": "boolean",
+        "parentConfirmation": "boolean",
+        "parentEmail": "string",
+        "schoolClass": "string",
+        "schoolSection": "null",
+        "schoolCode": "null",
+        "schoolConfirmed": "number"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/myz/navbar/nav.guest.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "topbar": {
+          "type": "array",
+          "length": 3,
+          "item": {
+            "id": "string",
+            "label": "string",
+            "link": "string",
+            "icon": "string"
+          }
+        },
+        "header": {
+          "type": "array",
+          "length": 0,
+          "item": null
+        },
+        "user": {
+          "type": "array",
+          "length": 1,
+          "item": {
+            "id": "string",
+            "label": "string"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://idp.zanichelli.it",
+      "path": "/v1/user",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "id": "number",
+        "username": "string",
+        "created_at": "null",
+        "email": "string",
+        "is_verified": "number",
+        "is_employee": "number",
+        "is_myzanichelli": "number",
+        "name": "string",
+        "surname": "string",
+        "attributes": {
+          "type": "array",
+          "length": 0,
+          "item": null
+        },
+        "iss": "string",
+        "roles": {
+          "type": "array",
+          "length": 2,
+          "item": {
+            "id": "number",
+            "roleId": "number",
+            "roleName": "string",
+            "departmentId": "null",
+            "departmentName": "null",
+            "branchCode": "null"
+          }
+        },
+        "myz": {
+          "id": "number",
+          "isConfirmed": "boolean",
+          "isApproved": "boolean",
+          "isAuthorizedByParent": "boolean"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/wotd/subscriptions/[email]/is-subscribed",
+      "queryKeys": [],
+      "status": 404,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "message": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/links/details",
+      "queryKeys": [
+        "appName",
+        "typeUrl"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "details": {
+          "id": "number",
+          "codice": "string",
+          "nome": "string",
+          "tipo": "number",
+          "baseUrl": {
+            "type": "array",
+            "length": 1,
+            "item": {
+              "id": "number",
+              "nome": "string",
+              "url": "string"
+            }
+          },
+          "newWindow": "boolean",
+          "icon": "string",
+          "descrizione": "string",
+          "descrizione_breve": "string",
+          "featured": "number",
+          "removable": "number",
+          "priorita": "number",
+          "categoria": "string",
+          "additionalUrls": {
+            "type": "array",
+            "length": 1,
+            "item": {
+              "id": "number",
+              "nome": "string",
+              "url": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/delayed-books",
+      "queryKeys": [],
+      "status": 204,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": ""
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/dashboard/translations/it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json; charset=utf-8",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/links",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "links": {
+          "type": "array",
+          "length": 11,
+          "item": {
+            "id": "number",
+            "codice": "string",
+            "nome": "string",
+            "tipo": "number",
+            "baseUrl": {
+              "type": "array",
+              "length": 1,
+              "item": {
+                "id": "...",
+                "nome": "...",
+                "url": "..."
+              }
+            },
+            "newWindow": "boolean",
+            "icon": "string",
+            "descrizione": "string",
+            "descrizione_breve": "string",
+            "featured": "number",
+            "removable": "number",
+            "priorita": "number",
+            "categoria": "string"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://staticmy.zanichelli.it",
+      "path": "/myz/navbar/nav.default.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "topbar": {
+          "type": "array",
+          "length": 3,
+          "item": {
+            "id": "string",
+            "label": "string",
+            "link": "string",
+            "icon": "string"
+          }
+        },
+        "header": {
+          "type": "array",
+          "length": 2,
+          "item": {
+            "id": "string",
+            "label": "string",
+            "link": "string"
+          }
+        },
+        "user": {
+          "type": "array",
+          "length": 4,
+          "item": {
+            "id": "string",
+            "label": "string",
+            "link": "string"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/licenses/temp",
+      "queryKeys": [
+        "types[]"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "tempLicenses": {
+          "type": "array",
+          "length": 0,
+          "item": null
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v3/dashboard/licenses/real",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "myz-token",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "realLicenses": {
+          "type": "array",
+          "length": 4,
+          "item": {
+            "license_isbn": "string",
+            "license_type": "string",
+            "license_temp_type": "null",
+            "end_date": "string",
+            "start_date": "string",
+            "source": "null",
+            "card_type": "null",
+            "volume": {
+              "isbn": "string",
+              "education": "boolean",
+              "title": "string",
+              "image": "string",
+              "preview": "boolean",
+              "ereader_url": "string",
+              "ereader_info": {
+                "id": "...",
+                "reflowable": "...",
+                "edi": "...",
+                "demo": "...",
+                "teacherMode": "...",
+                "annotated": "..."
+              },
+              "edigita_url": "string",
+              "zte_url": "string",
+              "laze_url": "string",
+              "scrittura_url": "string",
+              "tutor_upgrade_url": "null",
+              "course_id": "null",
+              "opera": {
+                "id": "...",
+                "title": "...",
+                "url": "...",
+                "tutor": "...",
+                "interactive_url": "...",
+                "catalog_url": "..."
+              },
+              "editorialGroups": {
+                "type": "array",
+                "length": 1,
+                "item": "..."
+              },
+              "authors": {
+                "type": "array",
+                "length": 2,
+                "item": "..."
+              },
+              "subjects": {
+                "type": "array",
+                "length": 1,
+                "item": "..."
+              },
+              "isbns": {
+                "type": "array",
+                "length": 2,
+                "item": "..."
+              },
+              "masters": {
+                "type": "array",
+                "length": 0,
+                "item": null
+              },
+              "search": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-notifications.zanichelli.it",
+      "path": "/api/notifications/count",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "count": "number",
+        "ttl": "number"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://formazione-admin.zanichelli.it",
+      "path": "/api/me/courses",
+      "queryKeys": [
+        "withProgress"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "data": {
+          "type": "array",
+          "length": 0,
+          "item": null
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://lrs.zanichelli.it",
+      "path": "/data/xAPI/statements",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "authorization",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "content-type",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "type": "array",
+        "length": 1,
+        "item": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/i18n/bookshelf/it_zanichelli.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "NAME": "string",
+        "ALL_TAB": "string",
+        "DOWNLOADED_TAB": "string",
+        "RECENTLY_VIEWD_TAB": "string",
+        "CATEGORY_LIST": "string",
+        "FAVOURITES": "string",
+        "SUBCATEGORY": "string",
+        "VIEW_ALL": "string",
+        "ABOUT_THIS_EBOOK": "string",
+        "PULL_TO_REFRESH": "string",
+        "DOWNLOAD_ALL": "string",
+        "DELETE_ALL": "string",
+        "ITEMS": "string",
+        "COLLECTION": "string",
+        "BOOK": "string",
+        "EPUB": "string",
+        "AUDIO": "string",
+        "VIDEO": "string",
+        "MORE_INFO": "string",
+        "MORE_INFO_TOOLTIP": "string",
+        "ANALYTICS_LABEL": "string",
+        "SHARE_TITLE": "string",
+        "[chiave omessa]": "string",
+        "LOADING": "string",
+        "DOWNLOADING": "string",
+        "RESUME": "string",
+        "ABOUT_THIS": "string",
+        "ALL_ITEMS": "string",
+        "OK": "string",
+        "ERROR": "string",
+        "YES_ALERT_BUTTON": "string",
+        "NO_ALERT_BUTTON": "string",
+        "OK_BUTTON": "string",
+        "CANCEL_DOWNLOADS": "string",
+        "PAUSE_DOWNLOADS": "string",
+        "NO_DATA_ALERT": "string",
+        "NO_DATA_MSG": "string",
+        "YOUR_SESSION_HAS_EXPIRED": "string",
+        "PLEASE_SIGN_IN_AGAIN": "string",
+        "BOOK_DOWNLOAD_FAILED": "string",
+        "Delete_Book": "string",
+        "Delete_All_BookTitle": "string",
+        "BOOKS_DOWNLOAD_IS_IN_PROGRESS_ALERT": "string",
+        "SIGNOUT_ALERT": "string",
+        "SIGNOUT_ALERT_MESSAGE": "string",
+        "VIDEO_DOWNLOAD_SIZE_TEXT": "string",
+        "BOOK_DOWNLOAD_SIZE_TEXT": "string",
+        "DELETE_MESSAGE_FOR_SINGLE_BOOK_DELETE": "string",
+        "INTERNET_UNAVAILABLE_MESSAGE": "string",
+        "BOOK_DOWNLOAD_FAILED_MESSAGE": "string",
+        "BOOK_DOWNLOAD_LICENSE_EXPIRED_KEY": "string",
+        "BOOK_DEVICE_LIMIT_EXCEED_KEY": "string",
+        "DEVICE_MEMORY_LIMIT_EXCEED_MESSAGE": "string",
+        "DEVICE_MEMORY_LIMIT_EXCEED_TITLE": "string",
+        "FAILED_TO_DOWNLOAD_TITLE": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/i18n/reader/it_zanichelli.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "EPUB_LOADED_MSG": "string",
+        "PAGE_LOADED": "string",
+        "PAGE_ZOOM_IN": "string",
+        "PAGE_ZOOM_OUT": "string",
+        "FONT_FILE_MISSING": "string",
+        "PAGE": "string",
+        "OK": "string",
+        "Err": "string",
+        "PAGE_VALID_MSG": "string",
+        "ARE_YOU_SURE_YOU_WANT_TO_SHARE_THIS_NOTE_ALERT": "string",
+        "Me": "string",
+        "BOOK_OPEN_MSG": "string",
+        "BOOK_OPEN_ERROR_MSG": "string",
+        "FAILED_TO_SAVE_SCROM_DATA": "string",
+        "FAILED_TO_FETCH_SCROM_DATA": "string",
+        "FAILED_TO_SAVE_HIGHLIGHT_DATA": "string",
+        "FAILED_TO_ACCEPT_OR_REJECT_DATA": "string",
+        "FAILED_TO_SAVE_COLLAB_DATA": "string",
+        "HELP_GOT_IT_BUTTON": "string",
+        "HELP_SKIP_BUTTON": "string",
+        "HELP_HOME_BUTTON_TITLE": "string",
+        "HELP_HOME_BUTTON_DETAIL": "string",
+        "HELP_TOC_BUTTON_TITLE": "string",
+        "HELP_TOC_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_BUTTON_TITLE": "string",
+        "HELP_MY_DATA_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_HIGHLIGHT_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_NOTE_BUTTON_DETAIL": "string",
+        "HELP_PEN_TOOL_BUTTON_TITLE": "string",
+        "HELP_HIGHLIGHTS_TOOL_BUTTON_TITLE": "string",
+        "HELP_MAP_TOOL_BUTTON_TITLE": "string",
+        "HELP_PEN_TOOL_BUTTON_DETAIL": "string",
+        "HELP_NOTE_BUTTON_TITLE": "string",
+        "HELP_NOTE_BUTTON_DETAIL": "string",
+        "HELP_SUBMIT_BUTTON_TITLE": "string",
+        "HELP_SUBMIT_BUTTON_DETAIL": "string",
+        "HELP_THUMBNAIL_BUTTON_TITLE": "string",
+        "THUMBNAIL_SCROLLBAR": "string",
+        "HELP_THUMBNAIL_BUTTON_DETAIL": "string",
+        "HELP_SEARCH_BUTTON_DETAIL": "string",
+        "HELP_SETTING_BUTTON_DETAIL": "string",
+        "HELP_PROFILE_BUTTON_TITLE": "string",
+        "HELP_PROFILE_BUTTON_DETAIL": "string",
+        "HELP_FONT_SETTING_BUTTON_TITLE": "string",
+        "FONT_SETTING_TOOLTIP": "string",
+        "HELP_FONT_SETTING_BUTTON_DETAIL": "string",
+        "HELP_MORE_SETTINGS_BUTTON_TITLE": "string",
+        "HELP_MORE_SETTINGS_BUTTON_DETAIL": "string",
+        "HELP_PROTRACTOR_BUTTON_TITLE": "string",
+        "HELP_PROTRACTOR_BUTTON_DETAIL": "string",
+        "HELP_ADDTEXT_BUTTON_TITLE": "string",
+        "HELP_ADDTEXT_BUTTON_DETAIL": "string",
+        "HELP_BOOKMARK_BUTTON_TITLE": "string",
+        "UPDATE_BOOKMARK_BUTTON": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL_LEFT": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL_RIGHT": "string",
+        "HELP_ERASER_BUTTON_TITLE": "string",
+        "HELP_ERASER_BUTTON_DETAIL": "string",
+        "HELP_CLEAR_BUTTON_TITLE": "string"
+      }
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/shell/images/icon_nav.ico",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/vnd.microsoft.icon"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/libzone.wasm",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/wasm"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/downloadapi/auth/contentserver/book/[id]/HTML5/[id]/downloadBook",
+      "queryKeys": [
+        "state"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "sec-ch-ua",
+        "x",
+        "sec-ch-ua-mobile",
+        "usertoken",
+        "user-agent",
+        "accept",
+        "content-type"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "responseCode": "number",
+        "responseMsg": "string",
+        "content_ownership": "string",
+        "privateKey": "string",
+        "lastPageFolio": "string",
+        "isbn": "string",
+        "clientBookId": "string",
+        "jwtToken": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/META-INF/container.xml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/content.opf",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/oebps-package+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/page_position.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "position": {
+          "c_0": "string",
+          "c_1": "string",
+          "c_2": "string",
+          "c_3": "string",
+          "c_4": "string",
+          "c_5": "string",
+          "c_6": "string",
+          "c_7": "string",
+          "c_8": "string",
+          "c_9": "string",
+          "c_10": "string",
+          "c_11": "string",
+          "c_12": "string",
+          "c_13": "string",
+          "c_14": "string",
+          "c_15": "string",
+          "c_16": "string",
+          "c_17": "string",
+          "c_18": "string",
+          "c_19": "string",
+          "c_20": "string",
+          "c_21": "string",
+          "c_22": "string",
+          "c_23": "string",
+          "c_24": "string",
+          "c_25": "string"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/enc.key",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "keymode",
+        "authorization",
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/pgp-keys"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/enc_resource.key",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "keymode",
+        "authorization",
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/pgp-keys"
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v1/catalog/volumes",
+      "queryKeys": [
+        "isbns"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "data": {
+          "type": "array",
+          "length": 2,
+          "item": {
+            "mainIsbn": "string",
+            "relatedIsbns": {
+              "type": "array",
+              "length": 2,
+              "item": "string"
+            },
+            "subVolumes": {
+              "type": "array",
+              "length": 0,
+              "item": null
+            },
+            "boxSets": {
+              "[chiave omessa]": {
+                "volumeTitle": "...",
+                "volumeSubtitle": "...",
+                "isDigital": "...",
+                "price": "...",
+                "outOfCatalog": "...",
+                "purchasable": "...",
+                "cover": "...",
+                "digitalIsbns": "..."
+              }
+            },
+            "operaId": "string",
+            "operaTitle": "string",
+            "operaSubtitle": "string",
+            "volumeTitle": "string",
+            "volumeSubtitle": "string",
+            "isDigital": "boolean",
+            "year": "number",
+            "editorialGroups": {
+              "type": "array",
+              "length": 1,
+              "item": "string"
+            },
+            "outOfCatalog": "boolean",
+            "purchasable": "boolean",
+            "activable": "boolean",
+            "cover": {
+              "big": "string",
+              "medium": "string",
+              "small": "string"
+            },
+            "resources": {
+              "protections": {
+                "[chiave omessa]": "...",
+                "n9bk": "...",
+                "f3wl": "...",
+                "f7qs": "..."
+              },
+              "volumes": {
+                "[chiave omessa]": "..."
+              },
+              "volumesDetails": {
+                "[chiave omessa]": "..."
+              },
+              "apps": {
+                "booktab": "...",
+                "zte": "...",
+                "tutor": "...",
+                "interactive_ebook": "...",
+                "edigita": "...",
+                "sito": "...",
+                "scrittura": "...",
+                "esercizi": "...",
+                "laboratorio3d": "...",
+                "disegno": "..."
+              },
+              "user": {
+                "protections": "...",
+                "apps": "..."
+              }
+            },
+            "links": {
+              "tutorUpgrade": "null"
+            },
+            "authors": {
+              "type": "array",
+              "length": 3,
+              "item": "string"
+            },
+            "subjects": {
+              "type": "array",
+              "length": 1,
+              "item": "string"
+            },
+            "authorsDetails": {
+              "type": "array",
+              "length": 3,
+              "item": {
+                "id": "...",
+                "firstName": "...",
+                "lastName": "..."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/pages.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "type": "array",
+        "length": 900,
+        "item": {
+          "path": "string",
+          "image": "string",
+          "width": "string",
+          "page": "string",
+          "markups": {
+            "type": "array",
+            "length": 0,
+            "item": null
+          },
+          "height": "string"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0001.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0002.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0004.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/json/page-list.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "[chiave omessa]": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/shell/fonts/reader/kitabooread.css",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "text/css"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0003.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0005.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0006.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0007.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0008.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0009.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0010.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/json/1-100_page.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "type": "array",
+        "length": 100,
+        "item": {
+          "page_id": "string",
+          "pages": {
+            "page": {
+              "para": {
+                "type": "array",
+                "length": 20,
+                "item": "..."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/toc.xml",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/fixed-book-styles.css",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "text/css"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/search.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "type": "array",
+        "length": 900,
+        "item": {
+          "textData": "string",
+          "foliono": "string",
+          "pageno": "string"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/changelog.xml",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/i18n/bookshelf/it_zanichelli.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "NAME": "string",
+        "ALL_TAB": "string",
+        "DOWNLOADED_TAB": "string",
+        "RECENTLY_VIEWD_TAB": "string",
+        "CATEGORY_LIST": "string",
+        "FAVOURITES": "string",
+        "SUBCATEGORY": "string",
+        "VIEW_ALL": "string",
+        "ABOUT_THIS_EBOOK": "string",
+        "PULL_TO_REFRESH": "string",
+        "DOWNLOAD_ALL": "string",
+        "DELETE_ALL": "string",
+        "ITEMS": "string",
+        "COLLECTION": "string",
+        "BOOK": "string",
+        "EPUB": "string",
+        "AUDIO": "string",
+        "VIDEO": "string",
+        "MORE_INFO": "string",
+        "MORE_INFO_TOOLTIP": "string",
+        "ANALYTICS_LABEL": "string",
+        "SHARE_TITLE": "string",
+        "[chiave omessa]": "string",
+        "LOADING": "string",
+        "DOWNLOADING": "string",
+        "RESUME": "string",
+        "ABOUT_THIS": "string",
+        "ALL_ITEMS": "string",
+        "OK": "string",
+        "ERROR": "string",
+        "YES_ALERT_BUTTON": "string",
+        "NO_ALERT_BUTTON": "string",
+        "OK_BUTTON": "string",
+        "CANCEL_DOWNLOADS": "string",
+        "PAUSE_DOWNLOADS": "string",
+        "NO_DATA_ALERT": "string",
+        "NO_DATA_MSG": "string",
+        "YOUR_SESSION_HAS_EXPIRED": "string",
+        "PLEASE_SIGN_IN_AGAIN": "string",
+        "BOOK_DOWNLOAD_FAILED": "string",
+        "Delete_Book": "string",
+        "Delete_All_BookTitle": "string",
+        "BOOKS_DOWNLOAD_IS_IN_PROGRESS_ALERT": "string",
+        "SIGNOUT_ALERT": "string",
+        "SIGNOUT_ALERT_MESSAGE": "string",
+        "VIDEO_DOWNLOAD_SIZE_TEXT": "string",
+        "BOOK_DOWNLOAD_SIZE_TEXT": "string",
+        "DELETE_MESSAGE_FOR_SINGLE_BOOK_DELETE": "string",
+        "INTERNET_UNAVAILABLE_MESSAGE": "string",
+        "BOOK_DOWNLOAD_FAILED_MESSAGE": "string",
+        "BOOK_DOWNLOAD_LICENSE_EXPIRED_KEY": "string",
+        "BOOK_DEVICE_LIMIT_EXCEED_KEY": "string",
+        "DEVICE_MEMORY_LIMIT_EXCEED_MESSAGE": "string",
+        "DEVICE_MEMORY_LIMIT_EXCEED_TITLE": "string",
+        "FAILED_TO_DOWNLOAD_TITLE": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/i18n/reader/it_zanichelli.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "accept",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "EPUB_LOADED_MSG": "string",
+        "PAGE_LOADED": "string",
+        "PAGE_ZOOM_IN": "string",
+        "PAGE_ZOOM_OUT": "string",
+        "FONT_FILE_MISSING": "string",
+        "PAGE": "string",
+        "OK": "string",
+        "Err": "string",
+        "PAGE_VALID_MSG": "string",
+        "ARE_YOU_SURE_YOU_WANT_TO_SHARE_THIS_NOTE_ALERT": "string",
+        "Me": "string",
+        "BOOK_OPEN_MSG": "string",
+        "BOOK_OPEN_ERROR_MSG": "string",
+        "FAILED_TO_SAVE_SCROM_DATA": "string",
+        "FAILED_TO_FETCH_SCROM_DATA": "string",
+        "FAILED_TO_SAVE_HIGHLIGHT_DATA": "string",
+        "FAILED_TO_ACCEPT_OR_REJECT_DATA": "string",
+        "FAILED_TO_SAVE_COLLAB_DATA": "string",
+        "HELP_GOT_IT_BUTTON": "string",
+        "HELP_SKIP_BUTTON": "string",
+        "HELP_HOME_BUTTON_TITLE": "string",
+        "HELP_HOME_BUTTON_DETAIL": "string",
+        "HELP_TOC_BUTTON_TITLE": "string",
+        "HELP_TOC_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_BUTTON_TITLE": "string",
+        "HELP_MY_DATA_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_HIGHLIGHT_BUTTON_DETAIL": "string",
+        "HELP_MY_DATA_NOTE_BUTTON_DETAIL": "string",
+        "HELP_PEN_TOOL_BUTTON_TITLE": "string",
+        "HELP_HIGHLIGHTS_TOOL_BUTTON_TITLE": "string",
+        "HELP_MAP_TOOL_BUTTON_TITLE": "string",
+        "HELP_PEN_TOOL_BUTTON_DETAIL": "string",
+        "HELP_NOTE_BUTTON_TITLE": "string",
+        "HELP_NOTE_BUTTON_DETAIL": "string",
+        "HELP_SUBMIT_BUTTON_TITLE": "string",
+        "HELP_SUBMIT_BUTTON_DETAIL": "string",
+        "HELP_THUMBNAIL_BUTTON_TITLE": "string",
+        "THUMBNAIL_SCROLLBAR": "string",
+        "HELP_THUMBNAIL_BUTTON_DETAIL": "string",
+        "HELP_SEARCH_BUTTON_DETAIL": "string",
+        "HELP_SETTING_BUTTON_DETAIL": "string",
+        "HELP_PROFILE_BUTTON_TITLE": "string",
+        "HELP_PROFILE_BUTTON_DETAIL": "string",
+        "HELP_FONT_SETTING_BUTTON_TITLE": "string",
+        "FONT_SETTING_TOOLTIP": "string",
+        "HELP_FONT_SETTING_BUTTON_DETAIL": "string",
+        "HELP_MORE_SETTINGS_BUTTON_TITLE": "string",
+        "HELP_MORE_SETTINGS_BUTTON_DETAIL": "string",
+        "HELP_PROTRACTOR_BUTTON_TITLE": "string",
+        "HELP_PROTRACTOR_BUTTON_DETAIL": "string",
+        "HELP_ADDTEXT_BUTTON_TITLE": "string",
+        "HELP_ADDTEXT_BUTTON_DETAIL": "string",
+        "HELP_BOOKMARK_BUTTON_TITLE": "string",
+        "UPDATE_BOOKMARK_BUTTON": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL_LEFT": "string",
+        "HELP_BOOKMARK_BUTTON_DETAIL_RIGHT": "string",
+        "HELP_ERASER_BUTTON_TITLE": "string",
+        "HELP_ERASER_BUTTON_DETAIL": "string",
+        "HELP_CLEAR_BUTTON_TITLE": "string"
+      }
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/shell/images/icon_nav.ico",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/vnd.microsoft.icon"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/libzone.wasm",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/wasm"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/downloadapi/auth/contentserver/book/[id]/FIXED_EPUB_IMAGE/[id]/downloadBook",
+      "queryKeys": [
+        "state"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "sec-ch-ua",
+        "x",
+        "sec-ch-ua-mobile",
+        "usertoken",
+        "user-agent",
+        "accept",
+        "content-type"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "responseCode": "number",
+        "responseMsg": "string",
+        "content_ownership": "string",
+        "privateKey": "string",
+        "lastPageFolio": "string",
+        "isbn": "string",
+        "clientBookId": "string",
+        "jwtToken": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/META-INF/container.xml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/package.opf",
+      "queryKeys": [
+        "t"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/octet-stream"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/nav.xhtml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/xhtml+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/toc.ncx",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/octet-stream"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/xhtml/A_Toc.xhtml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/xhtml+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://api-catalogo.zanichelli.it",
+      "path": "/v1/catalog/volumes",
+      "queryKeys": [
+        "isbns"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "data": {
+          "type": "array",
+          "length": 2,
+          "item": {
+            "mainIsbn": "string",
+            "relatedIsbns": {
+              "type": "array",
+              "length": 2,
+              "item": "string"
+            },
+            "subVolumes": {
+              "type": "array",
+              "length": 0,
+              "item": null
+            },
+            "boxSets": {
+              "[chiave omessa]": {
+                "volumeTitle": "...",
+                "volumeSubtitle": "...",
+                "isDigital": "...",
+                "price": "...",
+                "outOfCatalog": "...",
+                "purchasable": "...",
+                "cover": "...",
+                "digitalIsbns": "..."
+              }
+            },
+            "operaId": "string",
+            "operaTitle": "string",
+            "operaSubtitle": "string",
+            "volumeTitle": "string",
+            "volumeSubtitle": "string",
+            "isDigital": "boolean",
+            "year": "number",
+            "editorialGroups": {
+              "type": "array",
+              "length": 1,
+              "item": "string"
+            },
+            "outOfCatalog": "boolean",
+            "purchasable": "boolean",
+            "activable": "boolean",
+            "cover": {
+              "big": "string",
+              "medium": "string",
+              "small": "string"
+            },
+            "resources": {
+              "protections": {
+                "[chiave omessa]": "...",
+                "n9bk": "...",
+                "f3wl": "...",
+                "f7qs": "..."
+              },
+              "volumes": {
+                "[chiave omessa]": "..."
+              },
+              "volumesDetails": {
+                "[chiave omessa]": "..."
+              },
+              "apps": {
+                "booktab": "...",
+                "zte": "...",
+                "tutor": "...",
+                "interactive_ebook": "...",
+                "edigita": "...",
+                "sito": "...",
+                "scrittura": "...",
+                "esercizi": "...",
+                "laboratorio3d": "...",
+                "disegno": "..."
+              },
+              "user": {
+                "protections": "...",
+                "apps": "..."
+              }
+            },
+            "links": {
+              "tutorUpgrade": "null"
+            },
+            "authors": {
+              "type": "array",
+              "length": 3,
+              "item": "string"
+            },
+            "subjects": {
+              "type": "array",
+              "length": 1,
+              "item": "string"
+            },
+            "authorsDetails": {
+              "type": "array",
+              "length": 3,
+              "item": {
+                "id": "...",
+                "firstName": "...",
+                "lastName": "..."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/it_it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/en_us.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/xhtml/A_Fm1.xhtml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/xhtml+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/xhtml/A_Fm2.xhtml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/xhtml+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/fixed_epub_image/[id]/OEBPS/xhtml/A_Fm3.xhtml",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "application/xhtml+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/it_it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/en_us.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/it_it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/en_us.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/it_it.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/readspeaker/r/r2866/lang/en_us.json",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "sec-ch-ua-platform",
+        "referer",
+        "user-agent",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile"
+      ],
+      "contentType": "application/json",
+      "responseSchema": {
+        "af_za": "string",
+        "ak": "string",
+        "am": "string",
+        "[chiave omessa]": "string",
+        "ar_ar": "string",
+        "as": "string",
+        "autoscroll": "string",
+        "ay": "string",
+        "az": "string",
+        "be": "string",
+        "bg_bg": "string",
+        "bho": "string",
+        "black": "string",
+        "blackblue": "string",
+        "blackpink": "string",
+        "blackwhite": "string",
+        "blackyellow": "string",
+        "blue": "string",
+        "blueblack": "string",
+        "bluepink": "string",
+        "bluewhite": "string",
+        "blueyellow": "string",
+        "bm": "string",
+        "bn": "string",
+        "bs": "string",
+        "ca_es": "string",
+        "ceb": "string",
+        "chunkbutton": "string",
+        "chunkcontinue": "string",
+        "chunkwait": "string",
+        "ckb": "string",
+        "clicklisten": "string",
+        "close": "string",
+        "closedialog": "string",
+        "closepagemask": "string",
+        "closeplayer": "string",
+        "co": "string",
+        "collapse": "string",
+        "collapsenavigation": "string",
+        "cs_cz": "string",
+        "cy_cy": "string",
+        "da_dk": "string",
+        "darkblue": "string",
+        "darkgreen": "string",
+        "darkred": "string",
+        "de_de": "string",
+        "dictionarymessage": "string",
+        "dockplayer": "string",
+        "doi": "string",
+        "download": "string",
+        "dv": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0011.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0012.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0013.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0014.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0015.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0016.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0018.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0017.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0019.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0020.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0021.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0022.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0023.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0024.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0025.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0026.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0027.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0028.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0029.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0030.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0031.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "HEAD",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/6.0/zanichelli/assets/images/cleardot.gif",
+      "queryKeys": [
+        "ngsw-bypass"
+      ],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/gif"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0033.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0032.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0034.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0035.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0036.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0037.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0039.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0038.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0040.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0041.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0042.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    },
+    {
+      "method": "GET",
+      "origin": "https://webreader.zanichelli.it",
+      "path": "/[id]/html5/[id]/OPS/images/page0043.svgz",
+      "queryKeys": [],
+      "status": 200,
+      "requestHeaderNames": [
+        "user-agent",
+        "referer"
+      ],
+      "contentType": "image/svg+xml"
+    }
+  ]
+}

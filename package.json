@@ -1,6 +1,6 @@
 {
   "name": "mydbook-downloader",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -32,9 +32,15 @@
     "cli-progress": "^3.12.0",
     "dotenv": "^16.6.1",
     "msgpack-lite": "^0.1.27",
+    "node-forge": "^1.4.0",
     "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.20.2",
     "prompts": "^2.4.2",
-    "tesseract.js": "^6.0.1"
+    "svg-to-pdfkit": "^0.1.8",
+    "tesseract.js": "^6.0.1",
+    "tough-cookie": "^6.0.2",
+    "xml2js": "^0.6.2",
+    "zip-stream": "^7.0.5"
   },
   "devDependencies": {
     "@napi-rs/canvas": "^0.1.100",
@@ -42,6 +48,7 @@
     "@tesseract.js-data/ita": "^1.0.0",
     "electron": "44.7.0",
     "electron-builder": "26.15.3",
+    "fflate": "^0.8.3",
     "pdfjs-dist": "^4.10.38",
     "playwright": "1.56.1"
   },

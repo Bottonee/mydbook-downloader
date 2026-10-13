@@ -141,6 +141,34 @@ try {
   assert.equal(smartPdf.getPageCount(), 2);
   assert.deepEqual(smartPdf.getPages().map(page => page.getWidth()), [301, 302]);
   await window.locator('#disconnect').click(); await window.waitForFunction(() => document.getElementById('connection').textContent === 'Non connesso');
+  await app.evaluate(async ({ session }) => {
+    globalThis.fetch = async (url, { headers }) => {
+      if (new URL(url).hostname !== 'api-catalogo.zanichelli.it' || headers['myz-token'] !== 'zanichelli-fixture') throw new Error('Richiesta Zanichelli inattesa nel test');
+      return new Response(JSON.stringify({ realLicenses: [{ volume: { isbn: '9780000000001', title: 'Libro Zanichelli offline', ereader_url: 'https://webreader.zanichelli.it/reader', ereader_info: { id: 10 } } }] }));
+    };
+    await session.fromPartition('persist:zanichelli').protocol.handle('https', () => new Response('<html><body>Login Zanichelli simulato offline</body></html>', { headers: { 'Content-Type': 'text/html' } }));
+  });
+  await window.locator('#provider').selectOption('zanichelli');
+  await window.waitForFunction(() => !document.getElementById('token').disabled);
+  const zanLoginCreated = app.waitForEvent('window');
+  await window.locator('#login').click();
+  await (await zanLoginCreated).waitForLoadState('domcontentloaded');
+    await app.evaluate(async ({ session }) => {
+      const cookies = session.fromPartition('persist:zanichelli').cookies;
+      await cookies.set({ url: 'https://my.zanichelli.it', name: 'token', value: 'idp-fixture', path: '/', secure: true });
+      await cookies.set({ url: 'https://my.zanichelli.it', name: 'myz_token', value: 'zanichelli-fixture', path: '/', secure: true });
+    });
+  await window.waitForFunction(() => document.getElementById('connection').textContent === 'Connesso');
+  assert.equal(await window.locator('.book').count(), 1);
+  await window.locator('.book').click();
+    assert.equal(await window.locator('#download').isEnabled(), true);
+  assert.equal(await window.locator('#ocr').isEnabled(), false);
+  assert.equal(await window.locator('#compress').isEnabled(), false);
+    assert.equal(await window.locator('#download').innerText(), 'Scarica libro');
+  assert.equal((await readFile(path.join(env.MYDBOOK_TEST_DATA_DIR, 'token-zanichelli.bin'))).includes(Buffer.from('zanichelli-fixture')), false);
+  await window.locator('#disconnect').click();
+  await window.waitForFunction(() => document.getElementById('connection').textContent === 'Non connesso');
+  await assert.rejects(readFile(path.join(env.MYDBOOK_TEST_DATA_DIR, 'token-zanichelli.bin')), { code: 'ENOENT' });
   }
   console.log(packaged ? 'App confezionata verificata: isolamento, safeStorage e worker PDF da app.asar senza Playwright.' : 'Desktop verificato: isolamento, login cookie MyDBook/header bSmart, vault separati, pipe CLI, riconnessione, disconnessione, worker PDF e annullamento.');
 } finally { await app.close(); if (loginFixture) await new Promise(resolve => loginFixture.close(resolve)); }

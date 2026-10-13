@@ -8,7 +8,9 @@ export class ApiError extends Error {
 
 export function loadToken(provider = 'mydbook') {
   dotenv.config({ path: '.env', override: false });
-  const value = process.env[provider === 'bsmart' ? 'BSMART_TOKEN' : 'MYDBOOK_TOKEN'];
+  const names = { mydbook: 'MYDBOOK_TOKEN', bsmart: 'BSMART_TOKEN', zanichelli: 'ZANICHELLI_TOKEN' };
+  if (!Object.hasOwn(names, provider)) throw new ApiError('Provider non valido.');
+  const value = process.env[names[provider]];
   if (!value) throw new ApiError('Sessione assente: accedi al provider nell’app desktop. In alternativa configura il token in .env.');
   return validateToken(value);
 }

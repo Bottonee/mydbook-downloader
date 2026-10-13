@@ -20,6 +20,7 @@ try {
   const books = await provider.listBooks(token, { signal: controller.signal });
   if (!books.length) throw new ApiError('Nessun libro disponibile nella tua libreria.');
   books.forEach((b, i) => console.log(`${i + 1}. ${b.title} [${b.id}]${b.subtitle ? ` — ${b.subtitle}` : ''}`));
+  if (!values.list && provider.config.downloadSupported === false) throw new ApiError(provider.config.limitation + ' Per consultare la libreria usa --list.');
   if (!values.list) {
     let id = values.book;
     if (!id) { const answer = await prompts({ type: 'select', name: 'id', message: 'Scegli il libro da scaricare', choices: books.map((b, i) => ({ title: `${i + 1}. ${b.title}`, value: b.id })) }); id = answer.id; }
@@ -29,7 +30,7 @@ try {
       const limit = values.sample === undefined ? undefined : Number(values.sample);
       if (values.ocr && provider.id === 'bsmart') console.log('bSmart conserva il testo dei PDF originali: OCR non applicato.');
       const target = await downloadBook({ provider: provider.id, token, book, signal: controller.signal, compress, quality, ocr: Boolean(values.ocr), limit, pageSelection: values.pages, firstDigitalPage: values['first-digital-page'] === undefined ? undefined : Number(values['first-digital-page']), firstBookPage: values['first-book-page'] === undefined ? 1 : Number(values['first-book-page']) });
-      console.log(`PDF salvato: ${target}`);
+      console.log(`Libro salvato: ${target}`);
     } else console.log('Operazione annullata.');
   }
 } catch (error) {

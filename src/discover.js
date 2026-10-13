@@ -20,6 +20,7 @@ function safeUrl(value, token) {
 let browser;
 try {
   const { values } = parseArgs({ options: { provider: { type: 'string', default: 'mydbook' }, book: { type: 'string' }, headed: { type: 'boolean' } } });
+  if (values.provider === 'zanichelli') { await import('./discover-zanichelli.js'); process.exit(0); }
   if (values.provider === 'bsmart') {
     await discoverBsmart(values);
   } else {

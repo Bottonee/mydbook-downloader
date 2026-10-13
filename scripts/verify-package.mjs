@@ -13,6 +13,13 @@ assert.ok(entries.includes('/node_modules/tesseract.js/src/worker-script/node/in
 assert.equal(entries.some(entry => entry.startsWith('/node_modules/pdfjs-dist/')), false);
 assert.ok(entries.includes('/src/providers/index.js'));
 assert.ok(entries.includes('/src/providers/bsmart.js'));
+assert.ok(entries.includes('/src/providers/zanichelli.js'));
+assert.ok(entries.includes('/src/providers/zanichelli-reader.js'));
+assert.ok(entries.includes('/src/providers/zanichelli-volumes.js'));
+assert.ok(entries.includes('/src/providers/zanichelli-epub.js'));
+assert.ok(entries.includes('/node_modules/pdfkit/js/pdfkit.js'));
+assert.ok(entries.includes('/node_modules/svg-to-pdfkit/source.js'));
+assert.ok(entries.includes('/licenses/zanichelli-downloader-MIT.txt'));
 assert.ok(entries.includes('/src/providers/bsmart-crypto.js'));
 assert.ok(entries.includes('/node_modules/msgpack-lite/index.js'));
 assert.ok(entries.includes('/licenses/bsmart-downloader-MIT.txt'));

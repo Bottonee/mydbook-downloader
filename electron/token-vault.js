@@ -1,9 +1,10 @@
 import { readFile, mkdir, writeFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { ApiError } from '../src/api.js';
+import { getProvider } from '../src/providers/index.js';
 export class TokenVault {
   constructor(folder, storage, platform = process.platform, provider) {
-    if (provider !== undefined && !['mydbook', 'bsmart'].includes(provider)) throw new ApiError('Provider non valido.');
+    if (provider !== undefined) getProvider(provider);
     this.file = path.join(folder, provider ? `token-${provider}.bin` : 'token.bin'); this.storage = storage; this.platform = platform;
   }
   available() { return this.storage.isEncryptionAvailable() && (this.platform !== 'linux' || this.storage.getSelectedStorageBackend() !== 'basic_text'); }

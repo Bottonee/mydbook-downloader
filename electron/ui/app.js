@@ -24,8 +24,9 @@ function applyState(state) {
   const provider = state.providers?.find(p => p.id === state.provider);
   downloadSupported = provider?.downloadSupported !== false;
   compressionSupported = provider?.compressionSupported !== false;
-  $('ocr-help').textContent = $('provider').value === 'mydbook' ? 'Italiano e inglese, elaborati sul computer. Aggiunge testo selezionabile; richiede più tempo. I risultati completati vengono riutilizzati.' : 'bSmart conserva già il testo dei PDF originali. OCR non necessario.';
-  $('compression-help').textContent = compressionSupported ? 'Qualità più bassa: file più piccolo, meno dettaglio. Le dimensioni delle pagine restano invariate.' : 'bSmart: unione dei PDF originali, mantenendo testo e grafica. La compressione JPEG non si applica.';
+  $('ocr-help').textContent = $('provider').value === 'mydbook' ? 'Italiano e inglese, elaborati sul computer. Aggiunge testo selezionabile; richiede più tempo. I risultati completati vengono riutilizzati.' : $('provider').value === 'bsmart' ? 'bSmart conserva già il testo dei PDF originali. OCR non necessario.' : 'Zanichelli: conversione delle pagine originali in PDF; libri liquidi in EPUB. OCR non applicato.';
+  $('compression-help').textContent = compressionSupported ? 'Qualità più bassa: file più piccolo, meno dettaglio. Le dimensioni delle pagine restano invariate.' : $('provider').value === 'bsmart' ? 'bSmart: unione dei PDF originali, mantenendo testo e grafica. La compressione JPEG non si applica.' : 'Zanichelli: le pagine SVG conservano la grafica vettoriale. La compressione JPEG non si applica.';
+  $('download').textContent = $('provider').value === 'zanichelli' ? 'Scarica libro' : 'Scarica PDF';
   canRemember = state.canRemember;
   $('remember').checked = state.remembered;
   $('connection').textContent = state.connecting ? 'Accesso in corso…' : state.connected ? 'Connesso' : 'Non connesso';
@@ -97,16 +98,16 @@ $('download').addEventListener('click', async () => {
 $('cancel').addEventListener('click', async () => { $('cancel').disabled = true; $('phase').textContent = 'Annullamento…'; const response = await api.cancel(); if (!response.ok) { notice(response.message, true); $('cancel').disabled = false; } });
 const unsubscribe = api.onDownload(event => {
   if (event.type === 'progress') {
-    const labels = { metadata: 'Lettura delle pagine del libro', numbering: 'Lettura della numerazione del libro', download: 'Download pagine', ocr: 'Riconoscimento del testo (OCR)', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio PDF', complete: 'PDF pronto' };
+    const labels = { metadata: 'Lettura delle pagine del libro', numbering: 'Lettura della numerazione del libro', download: 'Download pagine', epub: 'Download risorse EPUB', ocr: 'Riconoscimento del testo (OCR)', pdf: compressionSupported && $('compress').checked ? 'Compressione e creazione PDF' : 'Creazione PDF', saving: 'Salvataggio del libro', complete: 'Libro pronto' };
     if (phase !== event.phase) { phase = event.phase; log(labels[phase] || 'Elaborazione…'); }
     $('phase').textContent = labels[event.phase] || 'Elaborazione…';
     if (event.phase === 'metadata' || event.phase === 'saving') { $('progress').removeAttribute('value'); $('page-count').textContent = ''; }
-    else { $('progress').max = event.total || 1; $('progress').value = event.completed; $('page-count').textContent = `${event.completed} / ${event.total} pagine`; }
+    else { $('progress').max = event.total || 1; $('progress').value = event.completed; $('page-count').textContent = `${event.completed} / ${event.total} ${event.phase === 'epub' ? 'risorse' : 'pagine'}`; }
     if (event.phase === 'download' && event.completed === event.total) log(`${event.downloaded} pagine scaricate; ${event.resumed} già presenti.`);
     return;
   }
   busy = false; $('cancel').disabled = false; updateControls();
-  if (event.type === 'done') { notice('PDF salvato. Il file è pronto nella cartella scelta.'); $('phase').textContent = 'Completato'; log(`PDF salvato: ${event.target}`); }
+  if (event.type === 'done') { notice('Libro salvato. Il file è pronto nella cartella scelta.'); $('phase').textContent = 'Completato'; log(`Libro salvato: ${event.target}`); }
   else if (event.type === 'cancelled') { notice('Operazione annullata. Le pagine completate saranno riutilizzate al prossimo download.'); $('phase').textContent = 'Annullato'; log('Download annullato; pagine completate conservate.'); $('progress').value = 0; }
   else { notice(event.message, true); $('phase').textContent = 'Operazione non completata'; log(event.message); $('progress').value = 0; }
 });

@@ -1,5 +1,7 @@
 # MyDbook Downloader
 
+Zanichelli / laZ Ebook: login nel sito ufficiale, sessione cifrata, libreria delle licenze reali e download. I libri Kitaboo a impaginazione fissa vengono convertiti in PDF nell’ordine del manifest, quelli liquidi esportati in EPUB. Sono supportate anche le unità PDF dei vecchi Booktab; il formato XPS/XOD restituisce un errore esplicito. Il flusso deriva da [Leone25/zanichelli-downloader](https://github.com/Leone25/zanichelli-downloader), con attribuzione MIT in [licenses/zanichelli-downloader-MIT.txt](licenses/zanichelli-downloader-MIT.txt). Dettagli in [docs/zanichelli-endpoints.md](docs/zanichelli-endpoints.md). L’integrazione è verificata con test simulati, desktop e campioni reali dei volumi 4A e 4B. Le confezioni come 4A+4B vengono separate usando i confini dell’indice del lettore e mostrate con titoli, PDF e cache distinti.
+
 App Electron e CLI Node.js per i libri della propria libreria MyDBook e bSmart. MyDBook scarica immagini; bSmart scarica e unisce le risorse `page_pdf`, decifrandole quando necessario con il formato del lettore web. Il metodo bSmart deriva da [Leone25/bSmart-downloader](https://github.com/Leone25/bSmart-downloader), con attribuzione MIT in [licenses/bsmart-downloader-MIT.txt](licenses/bsmart-downloader-MIT.txt). Dettagli e limiti in [docs/bsmart-endpoints.md](docs/bsmart-endpoints.md).
 
 ## Sviluppo e uso
@@ -15,7 +17,7 @@ npm run dev
 1. Scegli **Provider** e premi **Accedi e recupera token**. Completa manualmente il login nella finestra del sito ufficiale. L'app non raccoglie username o password.
 2. Dopo l'estrazione e la validazione, la finestra si chiude, il token viene salvato cifrato e la libreria si carica automaticamente. Un token salvato viene verificato al riavvio e quando cambi provider. Su 401/403 si riapre il login; un download interrotto può essere riavviato dopo l'accesso.
 3. Seleziona il libro e scegli la cartella. Per MyDBook puoi impostare la compressione JPEG (qualità 1–100, predefinita 80). bSmart conserva le pagine PDF originali, con testo e grafica: la compressione JPEG è disabilitata.
-4. Premi **Scarica PDF**. Il progresso conta pagine scaricate/riutilizzate e pagine assemblate. **Annulla** conserva le pagine completate.
+4. Premi **Scarica PDF** (per Zanichelli, **Scarica libro**). Il progresso conta pagine scaricate/riutilizzate e pagine assemblate, oppure le risorse EPUB. **Annulla** conserva le pagine PDF completate; gli EPUB interrotti vengono ricreati al prossimo tentativo.
    Per MyDBook puoi attivare **Rendi il PDF ricercabile (OCR)**: riconosce italiano e inglese sulle immagini originali e aggiunge uno strato di testo invisibile. Le pagine conservano l’aspetto originale e diventano ricercabili/selezionabili. Modelli e motore sono inclusi, senza connessione o invio dei libri a servizi esterni. L’OCR richiede più tempo e può sbagliare su formule, scansioni poco nitide e impaginazioni complesse. Per bSmart l’opzione è disabilitata: il testo dei PDF originali è già conservato.
 5. **Disconnetti** cancella il token cifrato e i dati della sessione del provider selezionato. Nell'opzione avanzata **Inserisci token manualmente**, Ricordami è facoltativo.
 
@@ -38,14 +40,19 @@ npm run cli -- --provider mydbook --book GIAC23_G2350103A --compress --quality 7
 npm run cli -- --provider mydbook --book GIAC23_G2350103A --sample 3
 npm run cli -- --provider mydbook --book GIAC23_G2350103A --ocr --compress --quality 80
 npm run cli -- --provider bsmart --list
+npm run cli -- --provider zanichelli --list
+npm run cli -- --provider zanichelli --book 9780000000001
 npm run cli -- --provider bsmart --book 12345
 npm run discover -- --provider mydbook --book GIAC23_G2350103A
 npm run discover -- --provider bsmart --headed
+npm run discover -- --provider zanichelli --headed
 ```
 
 `Ctrl+C` interrompe la CLI; ripeti il comando per riprendere. Per bSmart non serve Chromium per assemblare le pagine e `--compress` non modifica i PDF nativi. La discovery MyDBook mantiene il flusso esistente con token nell'ambiente: [docs/endpoints.md](docs/endpoints.md). Quella bSmart permette login manuale e navigazione, quindi salva solo schemi, nomi di cookie/header e query senza valori in `docs/bsmart-discovery.json`. I nomi e gli schemi vanno comunque controllati prima di condividere il report. Per diagnosticare un libro non funzionante serve un HAR oscurato con libreria e tre pagine sfogliate: rimuovere token, cookie, firme URL e dati personali. Il mapping `page_pdf` e la decifratura sono stati ricavati dal repository indicato, senza inventare endpoint.
 
 ## Pagine singole e intervalli
+
+Per Zanichelli la selezione sui PDF richiede **Calibra la numerazione**: gli ID dello spine non vengono interpretati come numeri stampati. EPUB, campioni EPUB e selezione di pagine EPUB non sono combinabili. Compressione JPEG e OCR sono disabilitati per Zanichelli. Se avevi già effettuato l’accesso prima dell’integrazione, premi **Disconnetti**, quindi **Accedi e recupera token**: il vecchio `myz-token` consente solo la libreria, mentre il download richiede anche il cookie di sessione `token`. Entrambi vengono conservati insieme nel vault cifrato `token-zanichelli.bin`, mai nel renderer o nella cache delle pagine. La CLI legge la stessa sessione; `ZANICHELLI_TOKEN` con il solo token della dashboard resta compatibile con `--list`.
 
 Nel campo **Numeri stampati sul libro** puoi inserire `1, 2, 3, 4`, `17-25` o una combinazione come `1, 2, 17- 25`. Gli intervalli sono inclusivi, i duplicati vengono rimossi e le pagine mantengono l’ordine del libro. Lascia il campo vuoto per scaricare tutto, comprese copertina e pagine iniziali. Il nome del PDF parziale include `-pagine-...`, così non sovrascrive il libro completo.
 
@@ -69,7 +76,7 @@ npm run dist
 npm run verify:package
 ```
 
-Genera `dist/MyDbook Downloader-1.5.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.5.0` e verifica il relativo `app.asar`.
+Genera `dist/MyDbook Downloader-1.6.0-Setup.exe`, installer NSIS Windows x64 per utente con cartella selezionabile. Nome, versione e icona placeholder provengono da `package.json`; `npm run icons` rigenera l'icona. Nessuna pubblicazione automatica. Target opzionali sul relativo sistema: `npm run dist:mac` (DMG/ZIP), `npm run dist:linux` (AppImage). Senza un certificato di code signing l'installer è non firmato. Se un'app avviata da `dist/win-unpacked` blocca il rebuild, usa `npm run dist -- --config.directories.output=dist/1.6.0` e verifica il relativo `app.asar`.
 
 La whitelist del pacchetto include tutti i provider e la pipeline condivisa, con le sole dipendenze di produzione. Playwright, `.env`, cache, output, test, script discovery e vault sono esclusi. `verify:package` controlla `app.asar`. GitHub Actions esegue test unitari e desktop offline, build e verifica su `windows-latest` con Node 24; carica l'installer nell'artifact **mydbook-downloader-windows**. Non servono token degli account.
 

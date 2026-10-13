@@ -22,6 +22,11 @@ export async function downloadBook({ provider: id = 'mydbook', token, book, sign
   const resolveLabels = Boolean(requested && id === 'mydbook' && (firstDigitalPage === undefined || firstDigitalPage === null || firstDigitalPage === ''));
   if (resolveLabels && !quiet) console.log('Lettura delle etichette di pagina MyDBook. La prima volta può richiedere alcuni minuti.');
   const metadata = provider.getMetadata ? await provider.getMetadata(token, book.id, { signal, resolveLabels, labelsCache: path.join(cacheDir, book.id, 'page-labels.json'), onProgress }) : { pages: await provider.getPages(token, book.id, { signal }) };
+  if (metadata.format === 'epub') {
+    if (requested || limit !== undefined) throw new ApiError('I libri liquidi Zanichelli vengono salvati in EPUB: campioni e selezione di pagine non sono disponibili.');
+    if (compress || ocr) throw new ApiError('Compressione e OCR non sono disponibili per i libri EPUB.');
+    return provider.saveEpub(metadata, { outputDir: path.join(outputDir, id), signal, onProgress });
+  }
   const pages = metadata.pages;
   const full = { ...book, ...metadata, provider: id, pages };
   const selection = selectPages(pages, pageSelection, { firstDigitalPage, firstBookPage });

@@ -57,7 +57,7 @@ else {
     const selectedAccount = () => accounts.get(providerId);
     const safeBooks = (books, provider) => books.map(book => {
       let coverUrl = null;
-      try { const u = new URL(book.coverUrl); if (provider.config.extraction.origins.includes(u.origin) && !u.search && !u.hash && !u.href.includes(selectedAccount().token)) coverUrl = u.href; } catch {}
+      try { const u = new URL(book.coverUrl); if ((provider.config.coverOrigins || provider.config.extraction.origins).includes(u.origin) && !u.search && !u.hash && !u.href.includes(selectedAccount().token)) coverUrl = u.href; } catch {}
       return { id: book.id, title: book.title, author: book.author, subtitle: book.subtitle, pagesCount: book.pagesCount, coverUrl };
     });
     const state = () => ({ version: app.getVersion(), name: app.getName(), provider: providerId, providers: providerList, connected: selectedAccount().connected, remembered: selectedAccount().remembered, canRemember: selectedAccount().vault.available(), outputDir, warning: selectedAccount().warning, books: safeBooks(selectedAccount().books, getProvider(providerId)) });
