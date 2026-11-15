@@ -12,6 +12,8 @@ assert.ok(entries.includes('/build/ocr/eng.traineddata.gz'));
 assert.ok(entries.includes('/node_modules/tesseract.js/src/worker-script/node/index.js'));
 assert.equal(entries.some(entry => entry.startsWith('/node_modules/pdfjs-dist/')), false);
 assert.ok(entries.includes('/src/providers/index.js'));
+assert.ok(entries.includes('/src/providers/flowbooks.js'));
+assert.ok(entries.includes('/electron/provider-reader.js'));
 assert.ok(entries.includes('/src/providers/bsmart.js'));
 assert.ok(entries.includes('/src/providers/zanichelli.js'));
 assert.ok(entries.includes('/src/providers/zanichelli-reader.js'));

@@ -1,5 +1,5 @@
 import { Api, ApiError } from '../api.js';
-import { config } from '../config.js';
+import { config as defaultConfig } from '../config.js';
 import { mydbookConfig } from './mydbook.config.js';
 import { extractConfiguredToken, normalizeBooks, safeId, validateWithLibrary } from './common.js';
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
@@ -7,14 +7,15 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 export async function listMydbookBooks(api) {
-  const fields = mydbookConfig.fields;
+  const config = api.config || defaultConfig, fields = config.fields;
   const data = await api.pageProps(config.libraryPath);
   const block = data[fields.blocks]?.find(b => b[fields.blockConfiguration]?.[fields.i18n]?.[fields.blockKey] === config.libraryBlockKey);
   if (!Array.isArray(data[fields.user]?.[fields.allowed])) throw new ApiError('Struttura libreria cambiata: ripeti la discovery.');
-  return normalizeBooks(block?.[fields.blockConfiguration]?.[fields.books], fields, { allowed: new Set(data[fields.user][fields.allowed]), provider: 'mydbook' });
+  if (!block && data[fields.user][fields.allowed].length === 0) return [];
+  return normalizeBooks(block?.[fields.blockConfiguration]?.[fields.books], fields, { allowed: new Set(data[fields.user][fields.allowed]), provider: config.id || 'mydbook' });
 }
 export async function mydbookMetadata(api, book, { resolveLabels = false, labelsCache, onProgress = () => {} } = {}) {
-  const fields = mydbookConfig.fields;
+  const config = api.config || defaultConfig, fields = config.fields;
   const data = await api.pageProps(config.bookPath(safeId(book.id)));
   if (!data[fields.user][fields.allowed]?.includes(book.id)) throw new ApiError('Libro non presente nella tua libreria.', 403);
   if (!data[fields.pages]?.length || !data[fields.metadata]) throw new ApiError('Questo libro non dispone di pagine a impaginazione fissa; formato non supportato.');
@@ -57,7 +58,7 @@ export async function mydbookMetadata(api, book, { resolveLabels = false, labels
   return { ...book, title: data[fields.metadata][fields.title] || book.title, pages };
 }
 export async function downloadMydbookPage(api, page) {
-  const fields = mydbookConfig.fields;
+  const config = api.config || defaultConfig, fields = config.fields;
   const details = await api.json(config.pageDetailsPath(safeId(page.bookId), page.id));
   const item = details[fields.detailsPages]?.find(p => String(p[fields.pageId]) === page.id);
   if (!item?.[fields.pageUrl]) throw new ApiError(`Pagina mancante: ${page.id}.`);
@@ -74,3 +75,17 @@ export const mydbook = {
   getPages: async (token, bookId, options) => (await mydbook.getMetadata(token, bookId, options)).pages,
   downloadPage: (token, page, { signal } = {}) => downloadMydbookPage(new Api(token, signal), page),
 };
+
+// The Olhos tenants share transport and page schemas, while keeping URLs and accounts isolated.
+export function createOlhosProvider(providerConfig) {
+  const provider = {
+    id: providerConfig.id, name: providerConfig.name, loginUrl: providerConfig.loginUrl, config: providerConfig,
+    extractToken: session => extractConfiguredToken(session, providerConfig),
+    isTokenValid: token => validateWithLibrary(provider, token),
+    listBooks: (token, { signal } = {}) => listMydbookBooks(new Api(token, signal, providerConfig)),
+    getMetadata: (token, bookId, options = {}) => mydbookMetadata(new Api(token, options.signal, providerConfig), { id: safeId(bookId) }, options),
+    getPages: async (token, bookId, options) => (await provider.getMetadata(token, bookId, options)).pages,
+    downloadPage: (token, page, { signal } = {}) => downloadMydbookPage(new Api(token, signal, providerConfig), page),
+  };
+  return provider;
+}

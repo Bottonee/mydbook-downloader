@@ -11,6 +11,7 @@ import { TokenVault } from './token-vault.js';
 import { userError } from './errors.js';
 import { DownloadJob } from './download-job.js';
 import { loginProvider, clearProviderSession } from './provider-login.js';
+import { openProviderReader, closeProviderReader } from './provider-reader.js';
 import { isSessionPipe, sendCliSession } from './cli-session.js';
 
 const directory = fileURLToPath(new URL('.', import.meta.url));
@@ -105,6 +106,7 @@ else {
     }));
     handle('provider:login', exclusive(connect));
     handle('provider:disconnect', exclusive(async () => {
+      closeProviderReader(providerId);
       const account = selectedAccount(); await account.vault.forget();
       if (providerId === 'mydbook') await legacy.forget();
       await clearProviderSession(getProvider(providerId));
@@ -127,6 +129,12 @@ else {
       if (!result.canceled && result.filePaths[0]) { outputDir = result.filePaths[0]; await mkdir(dataDir, { recursive: true }); await writeFile(stateFile, JSON.stringify({ outputDir, provider: providerId }), { mode: 0o600 }); }
       return { outputDir };
     });
+    handle('book:open', exclusive(async id => {
+      const book = selectedAccount().books.find(book => book.id === safeId(id));
+      if (!book) throw new ApiError('Libro non presente nella libreria.');
+      await openProviderReader(getProvider(providerId), selectedAccount().token, book);
+      return {};
+    }));
     handle('download:start', async data => {
       if (job || loading) throw new ApiError('È già in corso un’operazione.');
       if (!data || typeof data.compress !== 'boolean') throw new ApiError('Opzioni download non valide.');
@@ -146,7 +154,7 @@ else {
       }
       const quality = validateJpegQuality(data.quality);
       const tmpDir = app.isPackaged || testDirectory ? path.join(dataDir, 'tmp') : path.resolve(directory, '../tmp');
-      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality, ocr: providerId === 'mydbook' && data.ocr === true, pageSelection: data.pageSelection, firstDigitalPage: data.firstDigitalPage, firstBookPage: data.firstBookPage }, event => {
+      job = new DownloadJob({ provider: providerId, book: selected, token: account.token, outputDir, tmpDir, compress: data.compress, quality, ocr: (provider.config.ocrSupported ?? providerId === 'mydbook') && data.ocr === true, pageSelection: data.pageSelection, firstDigitalPage: data.firstDigitalPage, firstBookPage: data.firstBookPage }, event => {
         if (['done', 'failed', 'cancelled'].includes(event.type)) job = null;
         if (window && !window.isDestroyed()) window.webContents.send('download:event', event);
         if (event.type === 'failed' && [401, 403].includes(event.status)) {

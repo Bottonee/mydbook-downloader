@@ -19,8 +19,9 @@ export async function downloadBook({ provider: id = 'mydbook', token, book, sign
     try { await access(path.join(tmpDir, book.id, 'manifest.json')); cacheDir = tmpDir; } catch {}
   }
   onProgress({ phase: 'metadata', completed: 0, total: 0 });
-  const resolveLabels = Boolean(requested && id === 'mydbook' && (firstDigitalPage === undefined || firstDigitalPage === null || firstDigitalPage === ''));
-  if (resolveLabels && !quiet) console.log('Lettura delle etichette di pagina MyDBook. La prima volta può richiedere alcuni minuti.');
+  const supportsOcr = provider.config.ocrSupported ?? id === 'mydbook';
+  const resolveLabels = Boolean(requested && supportsOcr && (firstDigitalPage === undefined || firstDigitalPage === null || firstDigitalPage === ''));
+  if (resolveLabels && !quiet) console.log('Lettura delle etichette di pagina. La prima volta può richiedere alcuni minuti.');
   const metadata = provider.getMetadata ? await provider.getMetadata(token, book.id, { signal, resolveLabels, labelsCache: path.join(cacheDir, book.id, 'page-labels.json'), onProgress }) : { pages: await provider.getPages(token, book.id, { signal }) };
   if (metadata.format === 'epub') {
     if (requested || limit !== undefined) throw new ApiError('I libri liquidi Zanichelli vengono salvati in EPUB: campioni e selezione di pagine non sono disponibili.');
@@ -35,5 +36,5 @@ export async function downloadBook({ provider: id = 'mydbook', token, book, sign
   const transport = { signal, downloadPage: page => provider.downloadPage(token, page, { signal }) };
   const indices = requested ? selection.indices : pages.slice(0, count).map((_, i) => i);
   const files = await downloadPages(transport, full, { quiet, tmpDir: cacheDir, indices, onProgress });
-  return mergePdf({ ...full, pages: requested ? selection.pages : pages.slice(0, count) }, files, { quiet, signal, compress, quality, ocr: id === 'mydbook' && ocr, outputDir: path.join(outputDir, id), sample: !requested && count < pages.length, selectionSuffix: selection.suffix, onProgress });
+  return mergePdf({ ...full, pages: requested ? selection.pages : pages.slice(0, count) }, files, { quiet, signal, compress, quality, ocr: supportsOcr && ocr, outputDir: path.join(outputDir, id), sample: !requested && count < pages.length, selectionSuffix: selection.suffix, onProgress });
 }

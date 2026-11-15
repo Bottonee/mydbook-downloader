@@ -169,6 +169,38 @@ try {
   await window.locator('#disconnect').click();
   await window.waitForFunction(() => document.getElementById('connection').textContent === 'Non connesso');
   await assert.rejects(readFile(path.join(env.MYDBOOK_TEST_DATA_DIR, 'token-zanichelli.bin')), { code: 'ENOENT' });
+  await app.evaluate(({ app }) => {
+    globalThis.fetch = async (url, { headers }) => {
+      if (new URL(url).origin !== 'https://flowbooks.olhos.it' || headers.Authorization !== 'Bearer flow-fixture') throw new Error('Richiesta FlowBooks inattesa');
+      return new Response('<script id="__NEXT_DATA__">' + JSON.stringify({ props: { pageProps: { user: { token: 'flow-fixture', bookcodes: ['FLOW_BOOK'] }, blocks: [{ blockConfiguration: { i18n: { key: 'user_my_books_block' }, volumes: [{ bookcode: 'FLOW_BOOK', title: 'Libro FlowBooks offline' }] } }] } } }) + '</script>');
+    };
+    app.once('browser-window-created', (_event, reader) => {
+      reader.webContents.session.protocol.handle('https', () => new Response('<html><body>Lettore FlowBooks offline</body></html>', { headers: { 'Content-Type': 'text/html' } }));
+    });
+  });
+  await window.locator('#provider').selectOption('flowbooks');
+  await window.waitForFunction(() => !document.getElementById('token').disabled);
+  await window.locator('#advanced').evaluate(element => { element.open = true; });
+  await window.locator('#remember').uncheck(); await window.locator('#token').fill('flow-fixture'); await window.locator('#load').click();
+  await window.waitForSelector('.book'); await window.locator('.book').click();
+  assert.equal(await window.locator('#ocr').isEnabled(), true);
+  assert.equal(await window.locator('#open-book').isEnabled(), true);
+  const forbiddenReader = await window.evaluate(() => window.mydbook.openBook('NOT_OWNED'));
+  assert.equal(forbiddenReader.ok, false);
+  const flowReaderCreated = app.waitForEvent('window');
+  await window.locator('#open-book').click(); const flowReader = await flowReaderCreated;
+  await flowReader.waitForLoadState('domcontentloaded');
+  await flowReader.waitForURL('**/edisco/FLOW_BOOK/1/fixed');
+  assert.match(flowReader.url(), /flowbooks\.olhos\.it\/edisco\/FLOW_BOOK\/1\/fixed/);
+  assert.equal(await flowReader.evaluate(() => typeof window.require), 'undefined');
+  const readerSecurity = await app.evaluate(({ BrowserWindow }) => {
+    const reader = BrowserWindow.getAllWindows().find(window => window.webContents.getURL().includes('/FLOW_BOOK/'));
+    const prefs = reader.webContents.getLastWebPreferences();
+    return { sandbox: prefs.sandbox, contextIsolation: prefs.contextIsolation, nodeIntegration: prefs.nodeIntegration };
+  });
+  assert.deepEqual(readerSecurity, { sandbox: true, contextIsolation: true, nodeIntegration: false });
+  await window.locator('#disconnect').click();
+  await window.waitForFunction(() => document.getElementById('connection').textContent === 'Non connesso');
   }
   console.log(packaged ? 'App confezionata verificata: isolamento, safeStorage e worker PDF da app.asar senza Playwright.' : 'Desktop verificato: isolamento, login cookie MyDBook/header bSmart, vault separati, pipe CLI, riconnessione, disconnessione, worker PDF e annullamento.');
 } finally { await app.close(); if (loginFixture) await new Promise(resolve => loginFixture.close(resolve)); }

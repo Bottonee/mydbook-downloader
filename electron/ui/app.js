@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-let books = [], selected, busy = false, loading = false, phase, canRemember = true, downloadSupported = true, compressionSupported = true;
+let books = [], selected, busy = false, loading = false, phase, canRemember = true, downloadSupported = true, compressionSupported = true, ocrSupported = true, openSupported = false;
 const api = window.mydbook;
 function notice(message, error = false) { $('notice').textContent = message; $('notice').classList.toggle('error', error); }
 function log(message) {
@@ -12,10 +12,10 @@ function updateControls() {
   for (const id of ['first-digital-page', 'first-book-page']) $(id).disabled = busy || loading || !$('page-selection').value.trim();
   $('remember').disabled ||= !canRemember;
   $('compress').disabled ||= !compressionSupported;
-  $('ocr').disabled = busy || loading || $('provider').value !== 'mydbook';
+  $('ocr').disabled = busy || loading || !ocrSupported;
   $('quality').disabled = busy || loading || !compressionSupported || !$('compress').checked;
   $('download').disabled = busy || loading || !selected || !downloadSupported;
-  $('cancel').hidden = !busy;
+  $('open-book').hidden = !openSupported; $('open-book').disabled = busy || loading || !selected; $('cancel').hidden = !busy;
   $('search').disabled = busy || !books.length;
   document.querySelectorAll('.book').forEach(button => { button.disabled = busy; });
 }
@@ -23,8 +23,8 @@ function applyState(state) {
   if (state.provider) $('provider').value = state.provider;
   const provider = state.providers?.find(p => p.id === state.provider);
   downloadSupported = provider?.downloadSupported !== false;
-  compressionSupported = provider?.compressionSupported !== false;
-  $('ocr-help').textContent = $('provider').value === 'mydbook' ? 'Italiano e inglese, elaborati sul computer. Aggiunge testo selezionabile; richiede più tempo. I risultati completati vengono riutilizzati.' : $('provider').value === 'bsmart' ? 'bSmart conserva già il testo dei PDF originali. OCR non necessario.' : 'Zanichelli: conversione delle pagine originali in PDF; libri liquidi in EPUB. OCR non applicato.';
+  compressionSupported = provider?.compressionSupported !== false; ocrSupported = provider?.ocrSupported === true; openSupported = provider?.openSupported === true;
+  $('ocr-help').textContent = ocrSupported ? 'Italiano e inglese, elaborati sul computer. Aggiunge testo selezionabile; richiede più tempo. I risultati completati vengono riutilizzati.' : $('provider').value === 'bsmart' ? 'bSmart conserva già il testo dei PDF originali. OCR non necessario.' : 'Zanichelli: conversione delle pagine originali in PDF; libri liquidi in EPUB. OCR non applicato.';
   $('compression-help').textContent = compressionSupported ? 'Qualità più bassa: file più piccolo, meno dettaglio. Le dimensioni delle pagine restano invariate.' : $('provider').value === 'bsmart' ? 'bSmart: unione dei PDF originali, mantenendo testo e grafica. La compressione JPEG non si applica.' : 'Zanichelli: le pagine SVG conservano la grafica vettoriale. La compressione JPEG non si applica.';
   $('download').textContent = $('provider').value === 'zanichelli' ? 'Scarica libro' : 'Scarica PDF';
   canRemember = state.canRemember;
@@ -91,7 +91,7 @@ $('download').addEventListener('click', async () => {
   if (!Number.isInteger(quality) || quality < 1 || quality > 100) { notice('La qualità JPEG deve essere tra 1 e 100.', true); return; }
   busy = true; phase = undefined; $('progress').removeAttribute('value'); $('phase').textContent = 'Preparazione…'; $('page-count').textContent = ''; updateControls();
   const pageSelection = $('page-selection').value.trim();
-  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality, ocr: $('provider').value === 'mydbook' && $('ocr').checked, pageSelection, firstDigitalPage: pageSelection && $('first-digital-page').value ? Number($('first-digital-page').value) : undefined, firstBookPage: Number($('first-book-page').value) });
+  const response = await api.download({ id: selected.id, compress: compressionSupported && $('compress').checked, quality, ocr: ocrSupported && $('ocr').checked, pageSelection, firstDigitalPage: pageSelection && $('first-digital-page').value ? Number($('first-digital-page').value) : undefined, firstBookPage: Number($('first-book-page').value) });
   if (!response.ok) { busy = false; notice(response.message, true); log(response.message); $('progress').value = 0; updateControls(); }
   else { notice('Download in corso. Puoi annullare e riprenderlo in seguito.'); log(`Avvio: ${selected.title}.`); }
 });
@@ -118,3 +118,11 @@ window.addEventListener('beforeunload', unsubscribeAccount);
   if (!state.ok) { notice(state.message, true); return; }
   applyState(state);
 })();
+
+$('open-book').addEventListener('click', async () => {
+  if (!selected || busy || loading) return;
+  loading = true; updateControls();
+  try { const response = await api.openBook(selected.id); if (!response.ok) notice(response.message, true); }
+  catch { notice('Impossibile aprire il lettore. Riprova.', true); }
+  finally { loading = false; updateControls(); }
+});
